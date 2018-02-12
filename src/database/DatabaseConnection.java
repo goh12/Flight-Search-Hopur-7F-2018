@@ -15,11 +15,8 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 public class DatabaseConnection {
     private static final String URL = 
             "jdbc:postgresql://localhost/fauxflightdb?user=fsdev&password=fsdev123";
@@ -46,11 +43,22 @@ public class DatabaseConnection {
     }
     */
     
+    /**
+     * Býr til nýtt ConnectionStatement
+     * @return new ConnectionStatement
+     * @throws SQLException 
+     */
     public static ConnectionStatement getConnectionStatement() 
             throws SQLException {
         return new ConnectionStatement();
     }
     
+    /**
+     * Býr til nýtt ConnectionPreparedStatement
+     * @param st fyrir PreparedStatement
+     * @return new ConnectionPreparedStatement
+     * @throws SQLException 
+     */
     public static ConnectionPreparedStatement getConnectionPreparedStatement(String st) 
             throws SQLException {
         return new ConnectionPreparedStatement(st);

@@ -16,6 +16,21 @@ import java.sql.SQLException;
 public class DatabaseQueries {
     private DatabaseQueries() {}
     
+    private static int getAirportIdByName(String airportname) throws SQLException {
+        int id = -1;
+        String q = "SELECT id FROM airports WHERE lower(airportname) LIKE lower(?)";
+        ConnectionPreparedStatement cpst = DatabaseConnection.getConnectionPreparedStatement(q);
+
+        cpst.pst.setString(1, airportname);
+        ResultSet rs =  cpst.pst.executeQuery();
+        rs.next();
+        id = rs.getInt(1);  
+
+        cpst.close();
+
+        return id;
+    }
+    
     /**
      * Finnur öll flug frá flugvelli origin til flugvallar destination.
      * @param origin nafn á flugvelli origin
@@ -23,33 +38,9 @@ public class DatabaseQueries {
      */
     public static void getAllFlightsToFrom(String origin, String destination) {
         try {
-            String q = "SELECT id FROM airports WHERE lower(airportname) LIKE lower(?)";
-            ConnectionPreparedStatement cpst = DatabaseConnection.getConnectionPreparedStatement(q);
+            int originId = getAirportIdByName(origin);
+            int destinationId = getAirportIdByName(destination);
             
-            cpst.pst.setString(1, origin);
-            ResultSet rs =  cpst.pst.executeQuery();
-            rs.next();
-            int originId = rs.getInt(1);
-            
-            cpst.pst.setString(1, destination);
-            rs = cpst.pst.executeQuery();
-            rs.next();
-            int destinationId = rs.getInt(1);
-            cpst.close();
-            
-            getAllFlightsToFrom(originId, destinationId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * Private finnur öll flug frá origin til destination með ID flugvalla
-     * @param originId
-     * @param destinationId 
-     */
-    private static void getAllFlightsToFrom(int originId, int destinationId) {
-        try {
             String q = "SELECT dateof, timeof FROM flights WHERE origin = ? AND destination = ?";
             ConnectionPreparedStatement cpst = DatabaseConnection.getConnectionPreparedStatement(q);
             
@@ -60,9 +51,11 @@ public class DatabaseQueries {
             while (rs.next()) {
                 System.out.printf("%s, %s\n", rs.getString(1), rs.getString(2));
             }
-            cpst.close();       
+            cpst.close();      
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
 }
