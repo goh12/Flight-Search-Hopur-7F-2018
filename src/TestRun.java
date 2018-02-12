@@ -1,5 +1,6 @@
 
 import database.DatabaseConnection;
+import database.DatabaseQueries;
 import java.sql.SQLException;
 
 /*
@@ -14,11 +15,7 @@ import java.sql.SQLException;
  */
 public class TestRun {
     public static void main(String[] args) {
-        try {
-            DatabaseConnection c = new DatabaseConnection();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+            DatabaseQueries.getAllFlightsToFrom("Reykjavík", "Akureyri");
         
     }
 }
