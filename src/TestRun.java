@@ -20,7 +20,10 @@ import utils.Utilities;
  */
 public class TestRun {
     public static void main(String[] args) throws ParseException {
-            DatabaseQueries.getAllFlightsToFrom("Reykjavík", "Akureyri");
+            ArrayList<Flight> flights0 = DatabaseQueries.getAllFlightsToFrom("Reykjavík", "Akureyri");
+            flights0.forEach((f) -> {
+                System.out.printf("%s to %s - %s at %s\n", f.getOriginName(), f.getDestinationName(), f.getDateof(), f.getTimeof());
+            });
             
             Date d1 = Utilities.getDate("2018-05-14");
             Date d2 = Utilities.getDate("2018-07-26");

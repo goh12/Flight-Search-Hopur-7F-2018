@@ -45,29 +45,31 @@ public class DatabaseQueries {
     
     /**
      * Finnur öll flug frá flugvelli origin til flugvallar destination.
-     * @param origin nafn á flugvelli origin
+     * @param origin nafn á flugvelli origin.
      * @param destination nafn á flugvelli destination
      */
-    public static void getAllFlightsToFrom(String originName, String destinationName) {
-        try {
-            Airport origin = getAirportByName(originName);
-            Airport destination = getAirportByName(destinationName);
+    public static ArrayList<Flight> getAllFlightsToFrom(String originName, String destinationName) {
+        ArrayList<Flight> flights = null;
+        try {            
+            Airport aOrigin = getAirportByName(originName);
+            Airport aDestination = getAirportByName(destinationName);
             
-            String q = "SELECT dateof, timeof FROM flights WHERE origin = ? AND destination = ?";
+            String q = "SELECT id, flno, dateof, timeof, origin, destination, traveltime FROM flights WHERE origin = ? AND destination = ? "
+                    + "ORDER BY dateof, timeof";
             ConnectionPreparedStatement cpst = DatabaseConnection.getConnectionPreparedStatement(q);
             
-            cpst.pst.setInt(1, origin.getId());
-            cpst.pst.setInt(2, destination.getId());
-            ResultSet rs =  cpst.pst.executeQuery();
+            cpst.pst.setInt(1, aOrigin.getId());
+            cpst.pst.setInt(2, aDestination.getId());
             
-            while (rs.next()) {
-                System.out.printf("%s, %s\n", rs.getString(1), rs.getString(2));
-            }
+            ResultSet rs =  cpst.pst.executeQuery();
+            flights = listFlights(rs, aOrigin, aDestination);
             
             cpst.close();      
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
+        return flights;
     }
  
     /**
@@ -81,13 +83,13 @@ public class DatabaseQueries {
         
         ArrayList<Flight> flights = null;
         try {
-            flights = new ArrayList<Flight>();
             Airport aOrigin = getAirportByName(origin);
             Airport aDestination = getAirportByName(destination);
             
             String q = 
                     "SELECT id, flno, dateof, timeof, origin, destination, traveltime from flights WHERE "
-                    + "origin = ? AND destination = ? AND dateof = ?";
+                    + "origin = ? AND destination = ? AND dateof = ? "
+                    + "ORDER BY dateof, timeof";
             ConnectionPreparedStatement cpst = DatabaseConnection.getConnectionPreparedStatement(q);
             
             cpst.pst.setInt(1, aOrigin.getId());
@@ -95,19 +97,7 @@ public class DatabaseQueries {
             cpst.pst.setDate(3, date);
             
             ResultSet rs = cpst.pst.executeQuery();
-            while (rs.next()) {
-                flights.add(new Flight(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getDate(3),
-                        rs.getString(4),
-                        rs.getInt(5),
-                        aOrigin.getName(),
-                        rs.getInt(6),
-                        aDestination.getName(),
-                        rs.getInt(7)
-                ));
-            }
+            flights = listFlights(rs, aOrigin, aDestination);
                         
             return flights;
             
@@ -138,7 +128,8 @@ public class DatabaseQueries {
              
             String q = 
                     "SELECT id, flno, dateof, timeof, origin, destination, traveltime from flights WHERE "
-                    + "origin = ? AND destination = ? AND dateof >= ? AND dateof <= ?";
+                    + "origin = ? AND destination = ? AND dateof >= ? AND dateof <= ? "
+                    + "ORDER BY dateof, timeof";
             ConnectionPreparedStatement cpst = DatabaseConnection.getConnectionPreparedStatement(q);
             
             cpst.pst.setInt(1, aOrigin.getId());
@@ -147,7 +138,32 @@ public class DatabaseQueries {
             cpst.pst.setDate(4, dateLast);
             
             ResultSet rs = cpst.pst.executeQuery();
-            while (rs.next()) {
+            flights = listFlights(rs, aOrigin, aDestination);
+            
+            return flights;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return flights;
+    }
+    
+    
+    /**
+     * Tekur inn ResultSet af flugum, og 2 Airport hluti (origin og destination)
+     * og býr til ArrayList af Flight hlutum.
+     * @param rs
+     * @param aOrigin
+     * @param aDestination
+     * @return  Öllum flugum úr ResultSet rs
+     * @throws SQLException 
+     */
+    private static ArrayList<Flight> listFlights
+        (ResultSet rs, Airport aOrigin, Airport aDestination) throws SQLException 
+    {
+        ArrayList<Flight> flights = new ArrayList<Flight>();
+        
+        while (rs.next()) {
                 flights.add(new Flight(
                         rs.getInt(1),
                         rs.getString(2),
@@ -160,13 +176,7 @@ public class DatabaseQueries {
                         rs.getInt(7)
                 ));
             }
-            
-            return flights;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         
         return flights;
     }
-    
 }

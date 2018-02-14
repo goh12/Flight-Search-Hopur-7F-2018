@@ -16,15 +16,15 @@ public class Flight {
     /*
         Dálkar flugs í gagnagrunni
     */
-    private int id;
-    private String flno;
-    private Date dateof;
-    private String timeof;
-    private int originId;
-    private String originName;
-    private int destinationId;
-    private String destinationName;
-    private int traveltime;
+    private final int id;
+    private final String flno;
+    private final Date dateof;
+    private final String timeof;
+    private final int originId;
+    private final String originName;
+    private final int destinationId;
+    private final String destinationName;
+    private final int traveltime;
     
 
     public Flight(int id, String flno, Date dateof, String timeof,
