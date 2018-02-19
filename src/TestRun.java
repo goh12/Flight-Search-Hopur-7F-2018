@@ -25,8 +25,8 @@ public class TestRun {
                 System.out.printf("%s to %s - %s at %s\n", f.getOriginName(), f.getDestinationName(), f.getDateof(), f.getTimeof());
             });
             
-            Date d1 = Utilities.getDate("2018-05-14");
-            Date d2 = Utilities.getDate("2018-07-26");
+            Date d1 = Utilities.getDate("2018-10-01");
+            Date d2 = Utilities.getDate("2018-12-26");
             
             ArrayList<Flight> flights1 = DatabaseQueries.getFlightsToFromOnDate("Reykjavík", "Akureyri", d1);
             
