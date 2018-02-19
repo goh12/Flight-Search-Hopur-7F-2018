@@ -3,6 +3,28 @@
     Búa til public föll fyrir eitthvað query og private föll til
     hjálpar ef þarf.
 */
+
+
+/*
+    Queries sem við þurfum að IMPLEMENTA! (hjálparföll ekki innifalin)
+    getAirports()
+    getAirportByName(String name) --> DONE
+    getAirportById(String id)
+
+    getFlightsFromTo(String origin, String destination) --> DONE
+    getFlightsFromToOnDate(String origin, String destination, Date date) --> DONE
+    getFlightsFromToBetweenDates(String origin, String destination, Date date1, Date date2) --> DONE
+    
+    getFlightById(int id)
+
+    getBooking(String ssn, flightId)
+    getUserBookings(String ssn)
+    
+    getUser(String ssn)
+
+    getAvailableSeats(flightId)
+
+*/
 package database;
 
 import database.DatabaseConnection.*;
@@ -48,7 +70,7 @@ public class DatabaseQueries {
      * @param origin nafn á flugvelli origin.
      * @param destination nafn á flugvelli destination
      */
-    public static ArrayList<Flight> getAllFlightsToFrom(String originName, String destinationName) {
+    public static ArrayList<Flight> getFlightsToFrom(String originName, String destinationName) {
         ArrayList<Flight> flights = null;
         try {            
             Airport aOrigin = getAirportByName(originName);
