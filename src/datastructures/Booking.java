@@ -27,7 +27,7 @@ public class Booking {
      * 
      * @return skilar kennitölu notanda
      */
-    public String ssn() {
+    public String getSsn() {
         return ssn;
     }
     
