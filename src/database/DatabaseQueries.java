@@ -7,9 +7,9 @@
 
 /*
     Queries sem við þurfum að IMPLEMENTA! (hjálparföll ekki innifalin)
-    getAirports()
+    getAirports() --> DONE
     getAirportByName(String name) --> DONE
-    getAirportById(String id)
+    getAirportById(String id) --> DONE
 
     getFlightsFromTo(String origin, String destination) --> DONE
     getFlightsFromToOnDate(String origin, String destination, Date date) --> DONE
@@ -23,7 +23,6 @@
     getUser(String ssn)
 
     getAvailableSeats(flightId)
-
 */
 package database;
 
@@ -33,6 +32,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -65,6 +66,58 @@ public class DatabaseQueries {
         return new Airport(id, name);
     }
     
+    
+    /**
+     * Finnur flugvöll með id í gagnagrunn og skilar honum
+     * @param airportname 
+     * @return new Airport
+     * @throws SQLException 
+     */
+    private static Airport getAirportById(int id) {
+        try {
+           String name;
+            String q = "SELECT id, airportname FROM airports WHERE id = ?)";
+            ConnectionPreparedStatement cpst = DatabaseConnection.getConnectionPreparedStatement(q);
+
+            cpst.pst.setInt(1, id);
+            ResultSet rs =  cpst.pst.executeQuery();
+
+            rs.next();
+            name = rs.getString(2);
+
+            cpst.close();
+
+            return new Airport(id, name);  
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseQueries.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return null;
+    }
+    
+    public static ArrayList<Airport> getAirports() {
+        ArrayList<Airport> airports = null;
+        try {
+            airports = new ArrayList<Airport>();
+            String q = "SELECT id, airportname FROM airports";
+            ConnectionStatement cst = new ConnectionStatement();
+            
+            ResultSet rs = cst.st.executeQuery(q);
+            
+            while(rs.next()) {
+                airports.add(new Airport(
+                    rs.getInt(1),
+                    rs.getString(2)
+                ));
+            }
+            rs.close();
+            cst.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseQueries.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return airports;
+    }
+    
     /**
      * Finnur öll flug frá flugvelli origin til flugvallar destination.
      * @param origin nafn á flugvelli origin.
@@ -86,6 +139,7 @@ public class DatabaseQueries {
             ResultSet rs =  cpst.pst.executeQuery();
             flights = listFlights(rs, aOrigin, aDestination);
             
+            rs.close();
             cpst.close();      
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,7 +174,8 @@ public class DatabaseQueries {
             
             ResultSet rs = cpst.pst.executeQuery();
             flights = listFlights(rs, aOrigin, aDestination);
-                        
+            rs.close();
+            cpst.close();
             return flights;
             
         } catch (SQLException e) {
@@ -162,6 +217,8 @@ public class DatabaseQueries {
             ResultSet rs = cpst.pst.executeQuery();
             flights = listFlights(rs, aOrigin, aDestination);
             
+            rs.close();
+            cpst.close();
             return flights;
         } catch (SQLException e) {
             e.printStackTrace();
