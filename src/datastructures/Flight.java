@@ -6,6 +6,7 @@
 package datastructures;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,11 +26,12 @@ public class Flight {
     private final int destinationId;
     private final String destinationName;
     private final int traveltime;
+    private final ArrayList<Seat> seats;
     
 
     public Flight(int id, String flno, Date dateof, String timeof,
             int originId, String originName, int destinationId, String destinationName,
-            int traveltime)
+            int traveltime, ArrayList<Seat> seats)
     {
         this.id = id;
         this.flno = flno;
@@ -40,6 +42,7 @@ public class Flight {
         this.destinationId = destinationId;
         this.destinationName = destinationName;
         this.traveltime = traveltime;
+        this.seats = seats;
     }
 
     public int getId() {
@@ -76,6 +79,10 @@ public class Flight {
 
     public int getTraveltime() {
         return traveltime;
+    }
+    
+    public ArrayList<Seat> getSeats() {
+        return seats;
     }
 
     

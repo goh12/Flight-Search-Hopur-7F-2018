@@ -15,9 +15,10 @@
     getFlightsFromToOnDate(String origin, String destination, Date date) --> DONE
     getFlightsFromToBetweenDates(String origin, String destination, Date date1, Date date2) --> DONE
     
-    getFlightById(int id)
+    getFlightById(int id) --> DONE
 
     getBooking(String ssn, flightId)
+    getAllUserBookings(String ssn)
     getUserBookings(String ssn)
     
     getUser(String ssn)
@@ -39,8 +40,8 @@ import java.util.logging.Logger;
  *
  * @author greta
  */
-public class DatabaseQueries {
-    private DatabaseQueries() {}
+public class DatabaseController {
+    private DatabaseController() {}
     
     /**
      * Finnur flugvöll með nafni í gagnagrunn og skilar honum
@@ -89,7 +90,7 @@ public class DatabaseQueries {
 
             return new Airport(id, name);  
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseQueries.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return null;
     }
@@ -112,7 +113,7 @@ public class DatabaseQueries {
             rs.close();
             cst.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseQueries.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return airports;
@@ -229,6 +230,53 @@ public class DatabaseQueries {
     
     
     /**
+     * Finnur Flight í gagnagrunni með id og skilar sem flight hlut.
+     * @param id id Flugs í gagnagrunni
+     * @return Flight object með viðeigandi id
+     */
+    public static Flight getFlightsById(int id) {
+        try {
+            Flight flight = null;
+             
+            String q = 
+                    "SELECT f1.id, flno, dateof, timeof, origin, destination, traveltime, "
+                    + "a1.airportname, a2.airportname from flights f1 "
+                    + "JOIN airports a1 on origin = a1.id "
+                    + "JOIN airports a2 on destination = a2.id "
+                    + "WHERE f1.id = ?";
+            ConnectionPreparedStatement cpst = DatabaseConnection.getConnectionPreparedStatement(q);
+            cpst.pst.setInt(1, id);
+            ResultSet rs = cpst.pst.executeQuery();
+            
+            if(rs.next()) {
+                int flid = rs.getInt(1);
+                ArrayList<Seat> seats = getSeatsByFlightId(flid);
+                flight = new Flight(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getDate(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(8),
+                        rs.getInt(6),
+                        rs.getString(9),
+                        rs.getInt(7),
+                        seats
+                );
+            }
+            
+            rs.close();
+            cpst.close();
+            return flight;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    
+    /**
      * Tekur inn ResultSet af flugum, og 2 Airport hluti (origin og destination)
      * og býr til ArrayList af Flight hlutum.
      * @param rs
@@ -243,8 +291,10 @@ public class DatabaseQueries {
         ArrayList<Flight> flights = new ArrayList<Flight>();
         
         while (rs.next()) {
+            int flid = rs.getInt(1);
+            ArrayList<Seat> seats = getSeatsByFlightId(flid);
                 flights.add(new Flight(
-                        rs.getInt(1),
+                        flid,
                         rs.getString(2),
                         rs.getDate(3),
                         rs.getString(4),
@@ -252,11 +302,48 @@ public class DatabaseQueries {
                         aOrigin.getName(),
                         rs.getInt(6),
                         aDestination.getName(),
-                        rs.getInt(7)
+                        rs.getInt(7),
+                        seats
                 ));
             }
         
         return flights;
     }
+    
+        
+    /**
+     * Nær í öll sæti í flugi með ID
+     * @param id ID flugs í gagnagrunni
+     * @return nýjum lista yfir sæti í flugi með viðeigandi ID
+     */
+    public static ArrayList<Seat> getSeatsByFlightId(int id) {
+        try {
+            ArrayList<Seat> seats = new ArrayList<Seat>();
+            String q = "SELECT flightid, seatid, booked FROM seats "
+                    + "WHERE flightid = ?";
+            
+            ConnectionPreparedStatement cpst = new ConnectionPreparedStatement(q);
+            cpst.pst.setInt(1, id);
+            
+            ResultSet rs = cpst.pst.executeQuery();
+            while(rs.next()) {
+                seats.add(new Seat(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getBoolean(3)
+                ));
+            }
+            
+            rs.close();
+            cpst.close();
+            return seats;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+        
+    
+   
     
 }

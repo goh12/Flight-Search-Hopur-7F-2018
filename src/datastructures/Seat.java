@@ -10,9 +10,9 @@ package datastructures;
  * @author gudmu
  */
 public class Seat {
-    private final int seats;  // heildarfjöldi sæta í gagnagrunni
     private final int flightId; // id bókunar í gagnagrunni
-    private final int booked; // fjöldi booked í gagnagrunni
+    private final String seatId;  // heildarfjöldi sæta í gagnagrunni
+    private final boolean booked; // fjöldi booked í gagnagrunni
     
     /**
      * Smiður
@@ -20,33 +20,21 @@ public class Seat {
      * @param seats
      * @param booked 
      */
-    public Seat(int flightId, int seats, int booked) {
+    public Seat(int flightId, String seatId, boolean booked) {
         this.booked = booked;
-        this.seats = seats;
+        this.seatId = seatId;
         this.flightId = flightId;
     }
-    
-    /**
-     * skilar fjölda sæta
-     * @return
-     */
-    public int getSeats() {
-        return seats;
-    }
-    
-    /**
-     * skilar id flugs
-     * @return  
-     */
+
     public int getFlightId() {
         return flightId;
     }
-    
-    /**
-     * skilar fjölda bókaðra sæta
-     * @return 
-     */
-    public int getBooked() {
+
+    public String getSeatId() {
+        return seatId;
+    }
+
+    public boolean isBooked() {
         return booked;
     }
     
