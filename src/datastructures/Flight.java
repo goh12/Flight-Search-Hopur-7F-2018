@@ -17,16 +17,16 @@ public class Flight {
     /*
         Dálkar flugs í gagnagrunni
     */
-    private final int id;
-    private final String flno;
-    private final Date dateof;
-    private final String timeof;
-    private final int originId;
-    private final String originName;
-    private final int destinationId;
-    private final String destinationName;
-    private final int traveltime;
-    private final ArrayList<Seat> seats;
+    private final int id;                   //ID flugs í db
+    private final String flno;              //Flugnúmer
+    private final Date dateof;              //Dagsetning flugs
+    private final String timeof;            //Tími flugs
+    private final int originId;             //Id fararflugvallar
+    private final String originName;        //Nafn fararflugvallar
+    private final int destinationId;        //Id komuflugvallar
+    private final String destinationName;   //Nafn komuflugvallar
+    private final int traveltime;           //Ferðatími
+    private final ArrayList<Seat> seats;    //Sæti í flugi
     
 
     public Flight(int id, String flno, Date dateof, String timeof,
@@ -84,7 +84,19 @@ public class Flight {
     public ArrayList<Seat> getSeats() {
         return seats;
     }
-
+    
+    /**
+     * Skilar fjölda lausra sæta í flugi
+     * @return 
+     */
+    public int availableSeats() {
+        int i = 0;
+        for (Seat s : seats) {
+            if (!s.isBooked()) i++;
+        }
+        
+        return i;
+    }
     
     
     
