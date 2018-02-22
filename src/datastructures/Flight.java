@@ -98,6 +98,13 @@ public class Flight {
         return i;
     }
     
-    
+    /**
+     * Skilar verði fyrir sæti í flugi.
+     * @return 
+     */
+    public int getPrice() {
+        //TODO
+        return 0;
+    }
     
 }

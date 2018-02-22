@@ -1,7 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    Klasi heldur utan um lista af flugum.
+    Er með static aðferðir sem skila nýjum Flights hlut en
+    er með falinn Constructor.
+    
+    Hefur samband við DatabaseController.
+
+    Klasi inniheldur röðunaraðferðir fyrir lista af flugum.
+    
  */
 package containers;
 
@@ -81,14 +86,14 @@ public class Flights {
      * @param asc 
      */
     public void sortFlightsByDate() {
-        
+        //TODO
     }
     
     /**
      * Raðar flugum eftir verði
      */
     public void sortByPrice() {
-        
+        //TODO
     }
         
 }

@@ -14,16 +14,18 @@
     getFlightsFromTo(String origin, String destination) --> DONE
     getFlightsFromToOnDate(String origin, String destination, Date date) --> DONE
     getFlightsFromToBetweenDates(String origin, String destination, Date date1, Date date2) --> DONE
-    
     getFlightById(int id) --> DONE
 
     getBooking(String ssn, flightId)
     getAllUserBookings(String ssn)
     getUserBookings(String ssn)
-    
-    getUser(String ssn)
+    bookSeats(ArrayList<Booking> bookings)
 
-    getAvailableSeats(flightId)
+    getUser(String ssn)
+    newUser(String ssn, String name)
+    
+    
+
 */
 package database;
 
@@ -346,4 +348,42 @@ public class DatabaseController {
     
    
     
+    //Þarf þess aðferð samt?
+    public static Booking getBooking(int id) {
+        //TODO
+        return null;
+    }
+    
+    public static ArrayList<Booking> getUserBookings(String ssn) {
+        //TODO
+        return null;
+    }
+    
+    
+    public static User getUser(String ssn) {
+        //TODO
+        return null;
+    }
+    
+    /**
+     * Býr til nýan user í gagnagrunn.
+     * @param ssn kt notanda
+     * @param name nafn notanda
+     * @return -1 ef villa kom upp, annars 0
+     */
+    public static int newUser(String ssn, String name) {
+        //TODO
+        return -1;
+    }
+
+    /**
+     * Uppfærir gagnagrunn með nýjum bókunum
+     * @param bookings Bókanir sem þarf að uppfæra gagnagrunn með
+     * @return -1 ef villa kom upp, annars 0
+     */
+    public static int bookSeats(ArrayList<Booking> bookings) {
+        //TODO
+        //SKILAR -1 ef error, ANNARS 0
+        return -1; //Ef error
+    }
 }
