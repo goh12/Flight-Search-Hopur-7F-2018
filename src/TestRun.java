@@ -1,6 +1,6 @@
 
 import containers.Flights;
-import database.DatabaseController;
+import database.DatabaseQueries;
 import datastructures.Flight;
 import datastructures.Seat;
 import java.sql.Date;

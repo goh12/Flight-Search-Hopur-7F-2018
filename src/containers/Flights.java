@@ -10,7 +10,7 @@
  */
 package containers;
 
-import database.DatabaseController;
+import database.DatabaseQueries;
 import datastructures.Flight;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class Flights {
      */
     public static Flights getAllFlightsToFrom(String origin, String destination) 
     {
-        ArrayList<Flight> flights = DatabaseController.getFlightsToFrom(
+        ArrayList<Flight> flights = DatabaseQueries.getFlightsToFrom(
                 origin, destination
         );
         return new Flights(flights);
@@ -49,7 +49,7 @@ public class Flights {
     public static Flights getFlightsToFromOnDate(
             String origin, String destination, Date date) 
     {
-        ArrayList<Flight> flights = DatabaseController.getFlightsToFromOnDate(
+        ArrayList<Flight> flights = DatabaseQueries.getFlightsToFromOnDate(
             origin, destination, date
         );
         return new Flights(flights);
@@ -67,7 +67,7 @@ public class Flights {
     public static Flights getFlightsToFromBetweenDates(
             String origin, String destination, Date date1, Date date2) 
     {
-        ArrayList<Flight> flights = DatabaseController.getFlightsToFromBetweenDates(
+        ArrayList<Flight> flights = DatabaseQueries.getFlightsToFromBetweenDates(
             origin, destination, date1, date2
         );
         return new Flights(flights);

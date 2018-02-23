@@ -41,9 +41,4 @@ public class Booking {
         return seatId;
     }
 
-    
-    public void bookSeats() {
-        //TODO
-    }
-    
 }
