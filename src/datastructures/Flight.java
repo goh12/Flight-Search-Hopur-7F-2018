@@ -21,26 +21,22 @@ public class Flight {
     private final String flno;              //Flugnúmer
     private final Date dateof;              //Dagsetning flugs
     private final String timeof;            //Tími flugs
-    private final int originId;             //Id fararflugvallar
-    private final String originName;        //Nafn fararflugvallar
-    private final int destinationId;        //Id komuflugvallar
-    private final String destinationName;   //Nafn komuflugvallar
+    private final Airport origin;
+    private final Airport destination;
     private final int traveltime;           //Ferðatími
     private final ArrayList<Seat> seats;    //Sæti í flugi
     
 
     public Flight(int id, String flno, Date dateof, String timeof,
-            int originId, String originName, int destinationId, String destinationName,
+            Airport origin, Airport destination,
             int traveltime, ArrayList<Seat> seats)
     {
         this.id = id;
         this.flno = flno;
         this.dateof = dateof;
         this.timeof = timeof;
-        this.originId = originId;
-        this.originName = originName;
-        this.destinationId = destinationId;
-        this.destinationName = destinationName;
+        this.origin = origin;
+        this.destination = destination;
         this.traveltime = traveltime;
         this.seats = seats;
     }
@@ -61,21 +57,6 @@ public class Flight {
         return timeof;
     }
 
-    public int getOriginId() {
-        return originId;
-    }
-
-    public String getOriginName() {
-        return originName;
-    }
-
-    public int getDestinationId() {
-        return destinationId;
-    }
-
-    public String getDestinationName() {
-        return destinationName;
-    }
 
     public int getTraveltime() {
         return traveltime;

@@ -54,10 +54,8 @@ public class Utilities {
                         rs.getString(2),
                         rs.getDate(3),
                         rs.getString(4),
-                        rs.getInt(5),
-                        aOrigin.getName(),
-                        rs.getInt(6),
-                        aDestination.getName(),
+                        aOrigin,
+                        aDestination,
                         rs.getInt(7),
                         seats
                 ));

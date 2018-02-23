@@ -259,10 +259,8 @@ public class DatabaseQueries {
                         rs.getString(2),
                         rs.getDate(3),
                         rs.getString(4),
-                        rs.getInt(5),
-                        rs.getString(8),
-                        rs.getInt(6),
-                        rs.getString(9),
+                        new Airport(rs.getInt(5), rs.getString(8)),
+                        new Airport(rs.getInt(6), rs.getString(9)),
                         rs.getInt(7),
                         seats
                 );
