@@ -17,7 +17,6 @@
     getFlightById(int id) --> DONE
 
     getBooking(String ssn, flightId)
-    getAllUserBookings(String ssn)
     getUserBookings(String ssn)
     bookSeats(ArrayList<Booking> bookings)
 
