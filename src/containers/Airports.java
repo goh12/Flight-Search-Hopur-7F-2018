@@ -5,7 +5,7 @@
 */
 package containers;
 
-import database.DatabaseController;
+import database.DatabaseQueries;
 import datastructures.Airport;
 import java.util.ArrayList;
 
@@ -17,6 +17,6 @@ public class Airports {
     private final ArrayList<Airport> airports;
     
     public Airports() {
-        airports = DatabaseController.getAirports();
+        airports = DatabaseQueries.getAirports();
     }
 }
