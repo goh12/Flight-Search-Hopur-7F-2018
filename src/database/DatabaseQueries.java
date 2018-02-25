@@ -313,19 +313,99 @@ public class DatabaseQueries {
    
     
     //Þarf þess aðferð samt?
+    /**
+     * Finnur bókun með sama id
+     * @param id bókunarid
+     * @return 
+     */
     public static Booking getBooking(int id) {
-        //TODO
+        try {
+            Booking booking = null;
+            
+            String q = "SELECT * FROM bookings WHERE id = ?";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setInt(1, id);
+            ResultSet rs = cpst.pst.executeQuery();
+            
+            if(rs.next()) {
+                booking = new Booking(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getString(4)
+                );
+            }
+            
+            rs.close();
+            cpst.close();
+            return booking;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         return null;
     }
     
+    /**
+     * Sækir bókanir sem notandi er skráður fyrir
+     * @param ssn kennitala notanda
+     * @return 
+     */
     public static ArrayList<Booking> getUserBookings(String ssn) {
-        //TODO
+        try {
+            ArrayList<Booking> bookings = new ArrayList<>();
+            String q = "SELECT * FROM bookings WHERE ssn = ?";
+            
+            ConnectionPreparedStatement cpst = new ConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            
+            ResultSet rs = cpst.pst.executeQuery();
+            while(rs.next()) {
+                bookings.add(new Booking(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3), 
+                        rs.getString(4)
+                ));
+            }
+            
+            rs.close();
+            cpst.close();
+            return bookings;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
     
-    
+    /**
+     * Sækir notanda úr gagnagrunni með sömu kennitölu
+     * @param ssn kennitala notanda
+     * @return 
+     */
     public static User getUser(String ssn) {
-        //TODO
+        try {
+            User user = null;
+            
+            String q = "SELECT * FROM users WHERE ssn = ?";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            ResultSet rs = cpst.pst.executeQuery();
+            
+            if(rs.next()) {
+                user = new User(
+                        rs.getString(1),
+                        rs.getString(2)
+                );
+            }
+            
+            rs.close();
+            cpst.close();
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         return null;
     }
     
@@ -333,10 +413,25 @@ public class DatabaseQueries {
      * Býr til nýan user í gagnagrunn.
      * @param ssn kt notanda
      * @param name nafn notanda
-     * @return -1 ef villa kom upp, annars 0
+     * @return -1 ef villa kom upp, annars 1
      */
     public static int newUser(String ssn, String name) {
-        //TODO
+        try {
+            User user = null;
+            
+            String q = "INSERT INTO users (ssn, name) VALUES(?, ?)";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            cpst.pst.setString(2, name);
+            
+            int executeUpdate = cpst.pst.executeUpdate();
+            
+            cpst.close();
+            return executeUpdate;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         return -1;
     }
 

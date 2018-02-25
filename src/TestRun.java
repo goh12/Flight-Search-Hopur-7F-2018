@@ -3,6 +3,7 @@ import containers.Flights;
 import database.DatabaseQueries;
 import datastructures.Flight;
 import datastructures.Seat;
+import datastructures.User;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,6 +32,11 @@ public class TestRun {
                 }
             }
             
+            
+
+            System.out.println(DatabaseQueries.newUser("1234567890", "testUser"));
+            User user = DatabaseQueries.getUser("1234567890");
+            System.out.println(user.getName());
         
     }
 }
