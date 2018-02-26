@@ -36,5 +36,9 @@ public class Seat {
         return booked;
     }
     
+    public String toString() {
+        return "Sæti: " + seatId + ". Í flugi: " + flightId;
+    }
+    
     
 }

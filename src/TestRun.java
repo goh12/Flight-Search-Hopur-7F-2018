@@ -27,8 +27,7 @@ public class TestRun {
             
             for(Flight f : flights.getFlights()) {
                 for(Seat s : f.getSeats()) {
-                    System.out.printf("Seat %s on flight %s is %s\n", s.getSeatId(),
-                            f.getFlno(), s.isBooked() ? "booked" : "empty");
+                    System.out.println(f);
                 }
             }
             

@@ -40,5 +40,10 @@ public class Booking {
     public String getSeatId() {
         return seatId;
     }
+    
+    
+    public String toString() {
+        return ssn + " á sæti " + seatId + " í flugi " + flightId;
+    }
 
 }

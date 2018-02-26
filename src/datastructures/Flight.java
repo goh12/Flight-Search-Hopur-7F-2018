@@ -88,4 +88,10 @@ public class Flight {
         return 0;
     }
     
+    
+    public String toString() {
+        return origin.toString() + " til " + destination.toString() + ". " 
+                + dateof.toString() + " kl. " + timeof;
+    }
+    
 }
