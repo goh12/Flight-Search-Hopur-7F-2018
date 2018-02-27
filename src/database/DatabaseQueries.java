@@ -16,9 +16,9 @@
     getFlightsFromToBetweenDates(String origin, String destination, Date date1, Date date2) --> DONE
     getFlightById(int id) --> DONE
 
-    getBooking(String ssn, flightId) --> 
+    getBooking(String ssn, flightId) --> Skoda
     getUserBookings(String ssn)
-    bookSeats(ArrayList<Booking> bookings)
+    bookSeats(ArrayList<Booking> bookings)--> Skoda
 
     getUser(String ssn)
     newUser(String ssn, String name)
@@ -477,7 +477,24 @@ public class DatabaseQueries {
      * @return -1 ef villa kom upp, annars 0
      */
     public static int bookSeats(ArrayList<Booking> bookings) {
-        //TODO
+        try {
+            User user = null;
+            String q = "INSERT INTO bookings VALUES(?, ?, ?, ?)";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            for (Booking b : bookings){
+                
+                cpst.pst.setInt(1, b.getId());
+                cpst.pst.setString(2, b.getSsn());
+                cpst.pst.setInt(3, b.getFlightId());
+                cpst.pst.setString(4, b.getSeatId());
+                cpst.pst.addBatch();
+            }
+            cpst.pst.executeBatch();
+            cpst.close();
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         //SKILAR -1 ef error, ANNARS 0
         return -1; //Ef error
     }
