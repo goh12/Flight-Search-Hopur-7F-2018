@@ -99,5 +99,26 @@ public class Flights {
     public void sortByPrice() {
         flights.sort(Comparator.comparing(Flight::getPrice));
     }
-        
+    
+    /**
+     * Raðar flugum eftir lengd.
+     * @param asc 
+     */
+    public void sortByLength(boolean asc) {
+        if(asc)
+            flights.sort(Comparator.comparing(Flight::getTraveltime));
+        else
+            flights.sort(Comparator.comparing(Flight::getTraveltime).reversed());
+    } 
+    
+    /**
+     * Raðar flugum eftir tíma.
+     * @param asc 
+     */
+    public void sortByTime(boolean asc) {
+        if(asc)
+            flights.sort(Comparator.comparing(Flight::getTimeof));
+        else
+            flights.sort(Comparator.comparing(Flight::getTimeof).reversed());
+    }  
 }
