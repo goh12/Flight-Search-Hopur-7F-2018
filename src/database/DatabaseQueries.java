@@ -16,7 +16,7 @@
     getFlightsFromToBetweenDates(String origin, String destination, Date date1, Date date2) --> DONE
     getFlightById(int id) --> DONE
 
-    getBooking(String ssn, flightId)
+    getBooking(String ssn, flightId) --> 
     getUserBookings(String ssn)
     bookSeats(ArrayList<Booking> bookings)
 
@@ -345,6 +345,42 @@ public class DatabaseQueries {
         
         return null;
     }
+    
+    /*
+     * Finnur bókun með kennitlolu og flightId. ps
+     * @param String ssn kennitala
+     * @param int flightid
+     * @return 
+     */
+    public static Booking getBooking(String ssn, int flightid) {
+        try {
+            Booking booking = null;
+            
+            String q = "SELECT * FROM bookings WHERE ssn = ? AND flightid = ?";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            cpst.pst.setInt(2, flightid);
+            ResultSet rs = cpst.pst.executeQuery();
+            
+            if(rs.next()) {
+                booking = new Booking(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getString(4)
+                );
+            }
+            
+            rs.close();
+            cpst.close();
+            return booking;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
     
     /**
      * Sækir bókanir sem notandi er skráður fyrir
