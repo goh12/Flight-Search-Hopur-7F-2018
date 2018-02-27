@@ -6,7 +6,7 @@ package containers;
 
 import datastructures.*;
 import java.util.ArrayList;
-
+import database.DatabaseQueries;
 /**
  *
  * @author greta
@@ -25,13 +25,13 @@ public class Bookings {
      * bókanir sem notandi vill eru komnar í bookings lista)
      */
     public void bookSeats() {
-        //TODO
+        DatabaseQueries.bookSeats(bookings);
     }
     
     /**
      * Býr til nýja bókun og bætir í bookings lista.
      */
-    public void addBooking() {
-        //TODO
+    public void addBooking(Booking b) {
+        bookings.add(b);
     } 
 }

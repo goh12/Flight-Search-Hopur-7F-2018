@@ -14,6 +14,7 @@ import database.DatabaseQueries;
 import datastructures.Flight;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 /**
  *
  * @author greta
@@ -85,15 +86,18 @@ public class Flights {
      * Raðar flugum eftir dagsetningu.
      * @param asc 
      */
-    public void sortFlightsByDate() {
-        //TODO
+    public void sortFlightsByDate(boolean asc) {
+        if(asc)
+            flights.sort(Comparator.comparing(Flight::getDateof));
+        else
+            flights.sort(Comparator.comparing(Flight::getDateof).reversed());
     }
     
     /**
      * Raðar flugum eftir verði
      */
     public void sortByPrice() {
-        //TODO
+        flights.sort(Comparator.comparing(Flight::getPrice));
     }
         
 }
