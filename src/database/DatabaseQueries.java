@@ -357,9 +357,9 @@ public class DatabaseQueries {
      * @param int flightid
      * @return 
      */
-    public static Booking getBooking(String ssn, int flightid) {
+    public static ArrayList<Booking> getBookings(String ssn, int flightid) {
         try {
-            Booking booking = null;
+            ArrayList<Booking> bookings = new ArrayList<>();
             
             String q = "SELECT * FROM bookings WHERE ssn = ? AND flightid = ?";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
@@ -367,18 +367,18 @@ public class DatabaseQueries {
             cpst.pst.setInt(2, flightid);
             ResultSet rs = cpst.pst.executeQuery();
             
-            if(rs.next()) {
-                booking = new Booking(
+            while(rs.next()) {
+                bookings.add(new Booking(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getInt(3),
                         rs.getString(4)
-                );
+                ));
             }
             
             rs.close();
             cpst.close();
-            return booking;
+            return bookings;
         } catch (SQLException e) {
             e.printStackTrace();
         }
