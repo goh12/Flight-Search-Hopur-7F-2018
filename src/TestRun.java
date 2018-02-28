@@ -1,7 +1,9 @@
 
 import containers.Flights;
+import containers.Bookings;
 import database.DatabaseQueries;
 import datastructures.Flight;
+import datastructures.Booking;
 import datastructures.Seat;
 import datastructures.User;
 import java.util.Date;
@@ -46,6 +48,13 @@ public class TestRun {
             for(Flight f : flightsBDate.getFlights()) {
                 System.out.println(f);
             }
-
+            Flight flight = flightsOnDate.getFlights().get(0);
+            User petur = new User("2604823199","Petur");
+            int id = (int)(long) (System.currentTimeMillis() % Integer.MAX_VALUE);
+            Booking bkn = new Booking(id,petur.getSsn(),flight.getId(),flight.getSeats().get(0).getSeatId());
+            Bookings bkns = new Bookings();
+            bkns.addBooking(bkn);
+            bkns.bookSeats();
+            
     }
 }
