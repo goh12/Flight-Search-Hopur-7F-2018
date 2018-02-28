@@ -30,7 +30,7 @@ package database;
 
 import database.DatabaseController.*;
 import datastructures.*;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -173,7 +173,7 @@ public class DatabaseQueries {
             
             cpst.pst.setInt(1, aOrigin.getId());
             cpst.pst.setInt(2, aDestination.getId());
-            cpst.pst.setDate(3, date);
+            cpst.pst.setDate(3, (java.sql.Date) date);
             
             ResultSet rs = cpst.pst.executeQuery();
             flights = Utilities.listFlights(rs, aOrigin, aDestination);
@@ -214,8 +214,8 @@ public class DatabaseQueries {
             
             cpst.pst.setInt(1, aOrigin.getId());
             cpst.pst.setInt(2, aDestination.getId());
-            cpst.pst.setDate(3, dateFirst);
-            cpst.pst.setDate(4, dateLast);
+            cpst.pst.setDate(3, (java.sql.Date) dateFirst);
+            cpst.pst.setDate(4, (java.sql.Date) dateLast);
             
             ResultSet rs = cpst.pst.executeQuery();
             flights = Utilities.listFlights(rs, aOrigin, aDestination);
@@ -250,6 +250,7 @@ public class DatabaseQueries {
             cpst.pst.setInt(1, id);
             ResultSet rs = cpst.pst.executeQuery();
             
+            /*
             if(rs.next()) {
                 int flid = rs.getInt(1);
                 ArrayList<Seat> seats = getSeatsByFlightId(flid);
@@ -264,6 +265,7 @@ public class DatabaseQueries {
                         seats
                 );
             }
+            */
             
             rs.close();
             cpst.close();

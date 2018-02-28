@@ -9,12 +9,14 @@ import static database.DatabaseQueries.getSeatsByFlightId;
 import datastructures.Airport;
 import datastructures.Flight;
 import datastructures.Seat;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,9 +28,10 @@ public class Utilities {
      * Skilar Date hlut úr streng á forminu yyyy-MM-dd
      * @return 
      */
-    public static java.sql.Date getDate(String str) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        return new Date((df.parse(str)).getTime());         
+    public static Date getDate(String dateof, String timeof) throws ParseException {
+        String temp = dateof + " " + timeof;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new Date((df.parse(temp)).getTime());         
     }
     
     
@@ -47,18 +50,22 @@ public class Utilities {
         ArrayList<Flight> flights = new ArrayList<Flight>();
         
         while (rs.next()) {
-            int flid = rs.getInt(1);
-            ArrayList<Seat> seats = getSeatsByFlightId(flid);
+            try {
+                int flid = rs.getInt(1);
+                Date time = Utilities.getDate(rs.getString(3), rs.getString(4));
+                ArrayList<Seat> seats = getSeatsByFlightId(flid);
                 flights.add(new Flight(
                         flid,
                         rs.getString(2),
-                        rs.getDate(3),
-                        rs.getString(4),
+                        time,
                         aOrigin,
                         aDestination,
                         rs.getInt(7),
                         seats
                 ));
+            } catch (ParseException ex) {
+                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
         
         return flights;

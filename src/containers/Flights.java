@@ -12,7 +12,7 @@ package containers;
 
 import database.DatabaseQueries;
 import datastructures.Flight;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 /**
@@ -88,9 +88,9 @@ public class Flights {
      */
     public void sortFlightsByDate(boolean asc) {
         if(asc)
-            flights.sort(Comparator.comparing(Flight::getDateof));
+            flights.sort(Comparator.comparing(Flight::getDate));
         else
-            flights.sort(Comparator.comparing(Flight::getDateof).reversed());
+            flights.sort(Comparator.comparing(Flight::getDate).reversed());
     }
     
     /**
@@ -110,15 +110,5 @@ public class Flights {
         else
             flights.sort(Comparator.comparing(Flight::getTraveltime).reversed());
     } 
-    
-    /**
-     * Raðar flugum eftir tíma.
-     * @param asc 
-     */
-    public void sortByTime(boolean asc) {
-        if(asc)
-            flights.sort(Comparator.comparing(Flight::getTimeof));
-        else
-            flights.sort(Comparator.comparing(Flight::getTimeof).reversed());
-    }  
+
 }

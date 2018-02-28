@@ -4,7 +4,7 @@ import database.DatabaseQueries;
 import datastructures.Flight;
 import datastructures.Seat;
 import datastructures.User;
-import java.sql.Date;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,16 +26,9 @@ public class TestRun {
             Flights flights = Flights.getAllFlightsToFrom("Reykjavík", "Akureyri");
             
             for(Flight f : flights.getFlights()) {
-                for(Seat s : f.getSeats()) {
-                    System.out.println(f);
-                }
+                System.out.println(f);
             }
-            
-            
-
-            System.out.println(DatabaseQueries.newUser("1234567890", "testUser"));
-            User user = DatabaseQueries.getUser("1234567890");
-            System.out.println(user.getName());
+           
         
     }
 }
