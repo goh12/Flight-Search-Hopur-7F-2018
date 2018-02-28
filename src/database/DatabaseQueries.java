@@ -33,6 +33,7 @@ import datastructures.*;
 import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -250,28 +251,30 @@ public class DatabaseQueries {
             cpst.pst.setInt(1, id);
             ResultSet rs = cpst.pst.executeQuery();
             
-            /*
+            
             if(rs.next()) {
                 int flid = rs.getInt(1);
+                Date time = Utilities.getDate(rs.getString(3), rs.getString(4));
                 ArrayList<Seat> seats = getSeatsByFlightId(flid);
                 flight = new Flight(
                         rs.getInt(1),
                         rs.getString(2),
-                        rs.getDate(3),
-                        rs.getString(4),
+                        time,
                         new Airport(rs.getInt(5), rs.getString(8)),
                         new Airport(rs.getInt(6), rs.getString(9)),
                         rs.getInt(7),
                         seats
                 );
             }
-            */
+            
             
             rs.close();
             cpst.close();
             return flight;
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ParseException ex) {
+            Logger.getLogger(DatabaseQueries.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return null;
