@@ -28,7 +28,24 @@ public class TestRun {
             for(Flight f : flights.getFlights()) {
                 System.out.println(f);
             }
-           
-        
+            
+            System.out.println();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date d = sdf.parse("2018-05-23");
+            Flights flightsOnDate = Flights.getFlightsToFromOnDate("Reykjavík", "Akureyri", d);
+            
+            for(Flight f : flightsOnDate.getFlights()) {
+                System.out.println(f);
+            }
+            
+            System.out.println();
+            Date d1 = sdf.parse("2018-03-11");
+            Date d2 = sdf.parse("2018-05-23");
+            Flights flightsBDate = Flights.getFlightsToFromBetweenDates("Reykjavík", "Akureyri", d1,d2);
+            
+            for(Flight f : flightsBDate.getFlights()) {
+                System.out.println(f);
+            }
+
     }
 }

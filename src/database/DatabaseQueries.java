@@ -174,7 +174,7 @@ public class DatabaseQueries {
             
             cpst.pst.setInt(1, aOrigin.getId());
             cpst.pst.setInt(2, aDestination.getId());
-            cpst.pst.setDate(3, (java.sql.Date) date);
+            cpst.pst.setDate(3, new java.sql.Date(date.getTime()));
             
             ResultSet rs = cpst.pst.executeQuery();
             flights = Utilities.listFlights(rs, aOrigin, aDestination);
@@ -215,8 +215,8 @@ public class DatabaseQueries {
             
             cpst.pst.setInt(1, aOrigin.getId());
             cpst.pst.setInt(2, aDestination.getId());
-            cpst.pst.setDate(3, (java.sql.Date) dateFirst);
-            cpst.pst.setDate(4, (java.sql.Date) dateLast);
+            cpst.pst.setDate(3, new java.sql.Date(dateFirst.getTime()));
+            cpst.pst.setDate(4, new java.sql.Date(dateLast.getTime()));
             
             ResultSet rs = cpst.pst.executeQuery();
             flights = Utilities.listFlights(rs, aOrigin, aDestination);
