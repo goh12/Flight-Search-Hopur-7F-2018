@@ -5,6 +5,8 @@
  */
 package datastructures;
 
+import database.DatabaseQueries;
+
 /**
  *
  * @author gudmu
@@ -22,6 +24,7 @@ public class User {
     public User(String ssn, String name){
         this.name = name;
         this.ssn = ssn;
+        DatabaseQueries.newUser(ssn, name);
     }
     
     /**

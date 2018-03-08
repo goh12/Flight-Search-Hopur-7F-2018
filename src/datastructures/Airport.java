@@ -39,6 +39,9 @@ public class Airport {
         return id;
     }
     
+    public String toString() {
+        return name;
+    }
     
     
 }

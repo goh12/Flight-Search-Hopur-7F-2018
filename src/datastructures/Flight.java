@@ -5,7 +5,7 @@
  */
 package datastructures;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -19,22 +19,22 @@ public class Flight {
     */
     private final int id;                   //ID flugs í db
     private final String flno;              //Flugnúmer
-    private final Date dateof;              //Dagsetning flugs
-    private final String timeof;            //Tími flugs
+    private final Date date;
+    //private final Date dateof;              //Dagsetning flugs
+    //private final String timeof;            //Tími flugs
     private final Airport origin;
     private final Airport destination;
     private final int traveltime;           //Ferðatími
     private final ArrayList<Seat> seats;    //Sæti í flugi
     
 
-    public Flight(int id, String flno, Date dateof, String timeof,
+    public Flight(int id, String flno, Date date,
             Airport origin, Airport destination,
             int traveltime, ArrayList<Seat> seats)
     {
         this.id = id;
         this.flno = flno;
-        this.dateof = dateof;
-        this.timeof = timeof;
+        this.date = date;
         this.origin = origin;
         this.destination = destination;
         this.traveltime = traveltime;
@@ -47,14 +47,6 @@ public class Flight {
 
     public String getFlno() {
         return flno;
-    }
-
-    public Date getDateof() {
-        return dateof;
-    }
-
-    public String getTimeof() {
-        return timeof;
     }
 
 
@@ -86,6 +78,16 @@ public class Flight {
     public int getPrice() {
         //TODO
         return 0;
+    }
+    
+    public Date getDate() {
+        return date;
+    }
+    
+    
+    public String toString() {
+        return origin.toString() + " til " + destination.toString() + ". " +
+                date.toString();
     }
     
 }

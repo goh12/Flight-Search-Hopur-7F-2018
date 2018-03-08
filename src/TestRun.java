@@ -1,9 +1,12 @@
 
 import containers.Flights;
+import containers.Bookings;
 import database.DatabaseQueries;
 import datastructures.Flight;
+import datastructures.Booking;
 import datastructures.Seat;
-import java.sql.Date;
+import datastructures.User;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,12 +28,33 @@ public class TestRun {
             Flights flights = Flights.getAllFlightsToFrom("Reykjavík", "Akureyri");
             
             for(Flight f : flights.getFlights()) {
-                for(Seat s : f.getSeats()) {
-                    System.out.printf("Seat %s on flight %s is %s\n", s.getSeatId(),
-                            f.getFlno(), s.isBooked() ? "booked" : "empty");
-                }
+                System.out.println(f);
             }
             
-        
+            System.out.println();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date d = sdf.parse("2018-05-23");
+            Flights flightsOnDate = Flights.getFlightsToFromOnDate("Reykjavík", "Akureyri", d);
+            
+            for(Flight f : flightsOnDate.getFlights()) {
+                System.out.println(f);
+            }
+            
+            System.out.println();
+            Date d1 = sdf.parse("2018-03-11");
+            Date d2 = sdf.parse("2018-05-23");
+            Flights flightsBDate = Flights.getFlightsToFromBetweenDates("Reykjavík", "Akureyri", d1,d2);
+            
+            for(Flight f : flightsBDate.getFlights()) {
+                System.out.println(f);
+            }
+            Flight flight = flightsOnDate.getFlights().get(0);
+            User petur = new User("2604823199","Petur");
+            int id = (int)(long) (System.currentTimeMillis() % Integer.MAX_VALUE);
+            Booking bkn = new Booking(id,petur.getSsn(),flight.getId(),flight.getSeats().get(0).getSeatId());
+            Bookings bkns = new Bookings();
+            bkns.addBooking(bkn);
+            bkns.bookSeats();
+            
     }
 }

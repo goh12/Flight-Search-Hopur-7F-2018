@@ -16,9 +16,9 @@
     getFlightsFromToBetweenDates(String origin, String destination, Date date1, Date date2) --> DONE
     getFlightById(int id) --> DONE
 
-    getBooking(String ssn, flightId)
+    getBooking(String ssn, flightId) --> Skoda
     getUserBookings(String ssn)
-    bookSeats(ArrayList<Booking> bookings)
+    bookSeats(ArrayList<Booking> bookings)--> Skoda
 
     getUser(String ssn)
     newUser(String ssn, String name)
@@ -30,9 +30,10 @@ package database;
 
 import database.DatabaseController.*;
 import datastructures.*;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -173,7 +174,7 @@ public class DatabaseQueries {
             
             cpst.pst.setInt(1, aOrigin.getId());
             cpst.pst.setInt(2, aDestination.getId());
-            cpst.pst.setDate(3, date);
+            cpst.pst.setDate(3, new java.sql.Date(date.getTime()));
             
             ResultSet rs = cpst.pst.executeQuery();
             flights = Utilities.listFlights(rs, aOrigin, aDestination);
@@ -214,8 +215,8 @@ public class DatabaseQueries {
             
             cpst.pst.setInt(1, aOrigin.getId());
             cpst.pst.setInt(2, aDestination.getId());
-            cpst.pst.setDate(3, dateFirst);
-            cpst.pst.setDate(4, dateLast);
+            cpst.pst.setDate(3, new java.sql.Date(dateFirst.getTime()));
+            cpst.pst.setDate(4, new java.sql.Date(dateLast.getTime()));
             
             ResultSet rs = cpst.pst.executeQuery();
             flights = Utilities.listFlights(rs, aOrigin, aDestination);
@@ -250,14 +251,15 @@ public class DatabaseQueries {
             cpst.pst.setInt(1, id);
             ResultSet rs = cpst.pst.executeQuery();
             
+            
             if(rs.next()) {
                 int flid = rs.getInt(1);
+                Date time = Utilities.getDate(rs.getString(3), rs.getString(4));
                 ArrayList<Seat> seats = getSeatsByFlightId(flid);
                 flight = new Flight(
                         rs.getInt(1),
                         rs.getString(2),
-                        rs.getDate(3),
-                        rs.getString(4),
+                        time,
                         new Airport(rs.getInt(5), rs.getString(8)),
                         new Airport(rs.getInt(6), rs.getString(9)),
                         rs.getInt(7),
@@ -265,11 +267,14 @@ public class DatabaseQueries {
                 );
             }
             
+            
             rs.close();
             cpst.close();
             return flight;
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ParseException ex) {
+            Logger.getLogger(DatabaseQueries.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return null;
@@ -313,19 +318,135 @@ public class DatabaseQueries {
    
     
     //Þarf þess aðferð samt?
+    /**
+     * Finnur bókun með sama id
+     * @param id bókunarid
+     * @return 
+     */
     public static Booking getBooking(int id) {
-        //TODO
+        try {
+            Booking booking = null;
+            
+            String q = "SELECT * FROM bookings WHERE id = ?";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setInt(1, id);
+            ResultSet rs = cpst.pst.executeQuery();
+            
+            if(rs.next()) {
+                booking = new Booking(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getString(4)
+                );
+            }
+            
+            rs.close();
+            cpst.close();
+            return booking;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         return null;
     }
     
+    /*
+     * Finnur bókun með kennitlolu og flightId. ps
+     * @param String ssn kennitala
+     * @param int flightid
+     * @return 
+     */
+    public static ArrayList<Booking> getBookings(String ssn, int flightid) {
+        try {
+            ArrayList<Booking> bookings = new ArrayList<>();
+            
+            String q = "SELECT * FROM bookings WHERE ssn = ? AND flightid = ?";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            cpst.pst.setInt(2, flightid);
+            ResultSet rs = cpst.pst.executeQuery();
+            
+            while(rs.next()) {
+                bookings.add(new Booking(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getString(4)
+                ));
+            }
+            
+            rs.close();
+            cpst.close();
+            return bookings;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    
+    /**
+     * Sækir bókanir sem notandi er skráður fyrir
+     * @param ssn kennitala notanda
+     * @return 
+     */
     public static ArrayList<Booking> getUserBookings(String ssn) {
-        //TODO
+        try {
+            ArrayList<Booking> bookings = new ArrayList<>();
+            String q = "SELECT * FROM bookings WHERE ssn = ?";
+            
+            ConnectionPreparedStatement cpst = new ConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            
+            ResultSet rs = cpst.pst.executeQuery();
+            while(rs.next()) {
+                bookings.add(new Booking(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3), 
+                        rs.getString(4)
+                ));
+            }
+            
+            rs.close();
+            cpst.close();
+            return bookings;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
     
-    
+    /**
+     * Sækir notanda úr gagnagrunni með sömu kennitölu
+     * @param ssn kennitala notanda
+     * @return 
+     */
     public static User getUser(String ssn) {
-        //TODO
+        try {
+            User user = null;
+            
+            String q = "SELECT * FROM users WHERE ssn = ?";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            ResultSet rs = cpst.pst.executeQuery();
+            
+            if(rs.next()) {
+                user = new User(
+                        rs.getString(1),
+                        rs.getString(2)
+                );
+            }
+            
+            rs.close();
+            cpst.close();
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         return null;
     }
     
@@ -333,10 +454,25 @@ public class DatabaseQueries {
      * Býr til nýan user í gagnagrunn.
      * @param ssn kt notanda
      * @param name nafn notanda
-     * @return -1 ef villa kom upp, annars 0
+     * @return -1 ef villa kom upp, annars 1
      */
     public static int newUser(String ssn, String name) {
-        //TODO
+        try {
+            User user = null;
+            
+            String q = "INSERT INTO users (ssn, name) VALUES(?, ?)";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            cpst.pst.setString(2, name);
+            
+            int executeUpdate = cpst.pst.executeUpdate();
+            
+            cpst.close();
+            return executeUpdate;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         return -1;
     }
 
@@ -346,7 +482,24 @@ public class DatabaseQueries {
      * @return -1 ef villa kom upp, annars 0
      */
     public static int bookSeats(ArrayList<Booking> bookings) {
-        //TODO
+        try {
+            User user = null;
+            String q = "INSERT INTO bookings VALUES(?, ?, ?, ?)";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            for (Booking b : bookings){
+                
+                cpst.pst.setInt(1, b.getId());
+                cpst.pst.setString(2, b.getSsn());
+                cpst.pst.setInt(3, b.getFlightId());
+                cpst.pst.setString(4, b.getSeatId());
+                cpst.pst.addBatch();
+            }
+            cpst.pst.executeBatch();
+            cpst.close();
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         //SKILAR -1 ef error, ANNARS 0
         return -1; //Ef error
     }
