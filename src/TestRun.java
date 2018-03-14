@@ -33,7 +33,7 @@ public class TestRun {
             
             System.out.println();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date d = sdf.parse("2018-05-23");
+            Date d = sdf.parse("2018-05-06");
             Flights flightsOnDate = Flights.getFlightsToFromOnDate("Reykjavík", "Akureyri", d);
             
             for(Flight f : flightsOnDate.getFlights()) {
@@ -41,8 +41,8 @@ public class TestRun {
             }
             
             System.out.println();
-            Date d1 = sdf.parse("2018-03-11");
-            Date d2 = sdf.parse("2018-05-23");
+            Date d1 = sdf.parse("2018-01-11");
+            Date d2 = sdf.parse("2019-09-23");
             Flights flightsBDate = Flights.getFlightsToFromBetweenDates("Reykjavík", "Akureyri", d1,d2);
             
             for(Flight f : flightsBDate.getFlights()) {
