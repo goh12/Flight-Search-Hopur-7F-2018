@@ -70,14 +70,29 @@ public class Flight {
         
         return i;
     }
+
+    public Airport getOrigin() {
+        return origin;
+    }
+
+    public Airport getDestination() {
+        return destination;
+    }
+    
+    
     
     /**
      * Skilar verði fyrir sæti í flugi.
      * @return 
      */
     public int getPrice() {
-        //TODO
-        return 0;
+        Date now = new Date();
+        long timeBetween = date.getTime() - now.getTime();
+        timeBetween = timeBetween/1000;
+        timeBetween = timeBetween / (60 * 60 * 24);
+        int cost = 15000 + 10000/Math.max((int) timeBetween, 1) + 10000 - (availableSeats() * 150);
+        
+        return cost;
     }
     
     public Date getDate() {

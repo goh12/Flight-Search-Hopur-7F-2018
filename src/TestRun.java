@@ -34,11 +34,6 @@ public class TestRun {
             System.out.println();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date d = sdf.parse("2018-05-06");
-            Flights flightsOnDate = Flights.getFlightsToFromOnDate("Reykjavík", "Akureyri", d);
-            
-            for(Flight f : flightsOnDate.getFlights()) {
-                System.out.println(f);
-            }
             
             System.out.println();
             Date d1 = sdf.parse("2018-01-11");
@@ -47,14 +42,38 @@ public class TestRun {
             
             for(Flight f : flightsBDate.getFlights()) {
                 System.out.println(f);
+                System.out.println(f.getPrice());
             }
-            Flight flight = flightsOnDate.getFlights().get(0);
+            System.out.println();
+            flightsBDate.sortByPrice();
+            
+            for(Flight f : flightsBDate.getFlights()) {
+                System.out.println(f);
+                System.out.println(f.getPrice());
+            }
+            System.out.println();
+            
+            flightsBDate.sortFlightsByDate(true);
+            for(Flight f : flightsBDate.getFlights()) {
+                System.out.println(f);
+                System.out.println(f.getPrice());
+            }
+            System.out.println();
+            
+            flightsBDate.sortFlightsByDate(false);
+            for(Flight f : flightsBDate.getFlights()) {
+                System.out.println(f);
+                System.out.println(f.getPrice());
+            }
+            System.out.println();
+            
+            Flight flight = flightsBDate.getFlights().get(0);
+            
+            
             User petur = new User("2604823199","Petur");
-            int id = (int)(long) (System.currentTimeMillis() % Integer.MAX_VALUE);
-            Booking bkn = new Booking(id,petur.getSsn(),flight.getId(),flight.getSeats().get(0).getSeatId());
+            Booking bkn = new Booking(petur.getSsn(),flight.getId(),flight.getSeats().get(0).getSeatId());
             Bookings bkns = new Bookings();
             bkns.addBooking(bkn);
             bkns.bookSeats();
-            
     }
 }

@@ -5,6 +5,7 @@
  */
 package utils;
 
+import containers.Flights;
 import static database.DatabaseQueries.getSeatsByFlightId;
 import datastructures.Airport;
 import datastructures.Flight;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 
 /**
  *
@@ -31,7 +33,7 @@ public class Utilities {
     public static Date getDate(String dateof, String timeof) throws ParseException {
         String temp = dateof + " " + timeof;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return new Date((df.parse(temp)).getTime());         
+        return new Date((df.parse(temp)).getTime());
     }
     
     
@@ -69,5 +71,9 @@ public class Utilities {
             }
         
         return flights;
+    }
+
+    public static JTable tableFromFlights(Flights flights) {
+        return new JTable(new FlightSearchTableModel(flights));
     }
 }

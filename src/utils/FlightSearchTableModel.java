@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package utils;
+
+import containers.Flights;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import javax.swing.table.AbstractTableModel;
+
+/**
+ *
+ * @author greta
+ */
+public class FlightSearchTableModel extends AbstractTableModel {
+    private String[] columnNames = {
+            "Date",
+            "Departing from",
+            "Arriving at",
+            "Price from"
+        };
+    private Flights flights;
+    SimpleDateFormat df;
+    DecimalFormat cf; 
+    
+    public FlightSearchTableModel(Flights flights) {
+        this.flights = flights;
+        this.df = new SimpleDateFormat("dd/MM/yyy - HH:mm:ss");
+        this.cf = new DecimalFormat("###,###,### kr");
+    }
+    @Override
+    public int getRowCount() {
+        return flights.getFlights().size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return 4;
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        switch (columnIndex) {
+            case 0: return df.format(flights.getFlights().get(rowIndex).getDate());
+            case 1: return flights.getFlights().get(rowIndex).getOrigin();
+            case 2: return flights.getFlights().get(rowIndex).getDestination();
+            case 3: return cf.format(flights.getFlights().get(rowIndex).getPrice());
+        }
+        
+        return null;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return columnNames[column];
+    }
+    
+    
+}

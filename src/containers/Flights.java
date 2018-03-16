@@ -37,6 +37,7 @@ public class Flights {
         ArrayList<Flight> flights = DatabaseQueries.getFlightsToFrom(
                 origin, destination
         );
+        if (flights == null ) return null;
         return new Flights(flights);
     }
     
@@ -53,6 +54,7 @@ public class Flights {
         ArrayList<Flight> flights = DatabaseQueries.getFlightsToFromOnDate(
             origin, destination, date
         );
+        if (flights == null ) return null;
         return new Flights(flights);
     }
     
@@ -71,6 +73,7 @@ public class Flights {
         ArrayList<Flight> flights = DatabaseQueries.getFlightsToFromBetweenDates(
             origin, destination, date1, date2
         );
+        if (flights == null ) return null;
         return new Flights(flights);
     }
     

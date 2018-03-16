@@ -52,19 +52,19 @@ public class DatabaseQueries {
      * @return new Airport
      * @throws SQLException 
      */
-    private static Airport getAirportByName(String airportname) throws SQLException {
-        String name;
+    private static Airport getAirportByName(String airportname) throws SQLException, Exception {
+        String name = null;
         String q = "SELECT airportname FROM airports WHERE lower(airportname) LIKE lower(?)";
         ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
 
         cpst.pst.setString(1, airportname);
         ResultSet rs =  cpst.pst.executeQuery();
-        
-        rs.next();
-        name = rs.getString(1);
+        if (rs.next()) {
+            name = rs.getString(1);
+        }
         
         cpst.close();
-
+        if(name == null) throw new Exception("Airport not found");
         return new Airport(name);
     }
     
@@ -117,6 +117,8 @@ public class DatabaseQueries {
             cpst.close();      
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception ex) {
+            return null;
         }
         
         return flights;
@@ -154,6 +156,8 @@ public class DatabaseQueries {
             
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseQueries.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return flights;
@@ -196,6 +200,8 @@ public class DatabaseQueries {
             return flights;
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception ex) {
+            return null;
         }
         
         return flights;
@@ -421,7 +427,7 @@ public class DatabaseQueries {
      * Býr til nýan user í gagnagrunn.
      * @param ssn kt notanda
      * @param name nafn notanda
-     * @return -1 ef villa kom upp, annars 1
+     * @return -1 ef notandi er til, -2 ef óþekkt villa kemur upp, annars 1
      */
     public static int newUser(String ssn, String name) {
         try {
@@ -437,37 +443,47 @@ public class DatabaseQueries {
             cpst.close();
             return executeUpdate;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals("23505")) {
+                System.out.println("Seats already booked");
+                return -1;
+            } else {
+                e.printStackTrace();
+                return -2;
+            }
+            //e.printStackTrace();
         }
-        
-        return -1;
     }
 
     /**
      * Uppfærir gagnagrunn með nýjum bókunum
      * @param bookings Bókanir sem þarf að uppfæra gagnagrunn með
-     * @return -1 ef villa kom upp, annars 0
+     * @return -1 ef sæti er nú þegar bókuð. -2 ef óþekkt villa kom upp,
+     * annars 0
      */
     public static int bookSeats(ArrayList<Booking> bookings) {
         try {
             User user = null;
-            String q = "INSERT INTO bookings VALUES(?, ?, ?, ?)";
+            String q = "INSERT INTO bookings (ssn, flightid, seatid) VALUES(?, ?, ?)";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
             for (Booking b : bookings){
                 
-                cpst.pst.setInt(1, b.getId());
-                cpst.pst.setString(2, b.getSsn());
-                cpst.pst.setInt(3, b.getFlightId());
-                cpst.pst.setString(4, b.getSeatId());
+                cpst.pst.setString(1, b.getSsn());
+                cpst.pst.setInt(2, b.getFlightId());
+                cpst.pst.setString(3, b.getSeatId());
                 cpst.pst.addBatch();
             }
             cpst.pst.executeBatch();
             cpst.close();
             return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getSQLState().equals("23505")) {
+                System.out.println("Seats already booked");
+                return -1;
+            } else {
+                e.printStackTrace();
+                return -2;
+            }
         }
-        //SKILAR -1 ef error, ANNARS 0
-        return -1; //Ef error
+        
     }
 }
