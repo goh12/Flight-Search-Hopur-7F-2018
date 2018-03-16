@@ -53,64 +53,34 @@ public class DatabaseQueries {
      * @throws SQLException 
      */
     private static Airport getAirportByName(String airportname) throws SQLException {
-        int id;
         String name;
-        String q = "SELECT id, airportname FROM airports WHERE lower(airportname) LIKE lower(?)";
+        String q = "SELECT airportname FROM airports WHERE lower(airportname) LIKE lower(?)";
         ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
 
         cpst.pst.setString(1, airportname);
         ResultSet rs =  cpst.pst.executeQuery();
         
         rs.next();
-        id = rs.getInt(1);  
-        name = rs.getString(2);
+        name = rs.getString(1);
         
         cpst.close();
 
-        return new Airport(id, name);
+        return new Airport(name);
     }
     
-    
-    /**
-     * Finnur flugvöll með id í gagnagrunn og skilar honum
-     * @param airportname 
-     * @return new Airport
-     * @throws SQLException 
-     */
-    private static Airport getAirportById(int id) {
-        try {
-           String name;
-            String q = "SELECT id, airportname FROM airports WHERE id = ?)";
-            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
-
-            cpst.pst.setInt(1, id);
-            ResultSet rs =  cpst.pst.executeQuery();
-
-            rs.next();
-            name = rs.getString(2);
-
-            cpst.close();
-
-            return new Airport(id, name);  
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseQueries.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        return null;
-    }
     
     public static ArrayList<Airport> getAirports() {
         ArrayList<Airport> airports = null;
         try {
             airports = new ArrayList<Airport>();
-            String q = "SELECT id, airportname FROM airports";
+            String q = "SELECT airportname FROM airports";
             ConnectionStatement cst = new ConnectionStatement();
             
             ResultSet rs = cst.st.executeQuery(q);
             
             while(rs.next()) {
                 airports.add(new Airport(
-                    rs.getInt(1),
-                    rs.getString(2)
+                    rs.getString(1)
                 ));
             }
             rs.close();
@@ -137,8 +107,8 @@ public class DatabaseQueries {
                     + "ORDER BY dateof, timeof";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
             
-            cpst.pst.setInt(1, aOrigin.getId());
-            cpst.pst.setInt(2, aDestination.getId());
+            cpst.pst.setString(1, aOrigin.getName());
+            cpst.pst.setString(2, aDestination.getName());
             
             ResultSet rs =  cpst.pst.executeQuery();
             flights = Utilities.listFlights(rs, aOrigin, aDestination);
@@ -172,8 +142,8 @@ public class DatabaseQueries {
                     + "ORDER BY dateof, timeof";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
             
-            cpst.pst.setInt(1, aOrigin.getId());
-            cpst.pst.setInt(2, aDestination.getId());
+            cpst.pst.setString(1, aOrigin.getName());
+            cpst.pst.setString(2, aDestination.getName());
             cpst.pst.setDate(3, new java.sql.Date(date.getTime()));
             
             ResultSet rs = cpst.pst.executeQuery();
@@ -213,8 +183,8 @@ public class DatabaseQueries {
                     + "ORDER BY dateof, timeof";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
             
-            cpst.pst.setInt(1, aOrigin.getId());
-            cpst.pst.setInt(2, aDestination.getId());
+            cpst.pst.setString(1, aOrigin.getName());
+            cpst.pst.setString(2, aDestination.getName());
             cpst.pst.setDate(3, new java.sql.Date(dateFirst.getTime()));
             cpst.pst.setDate(4, new java.sql.Date(dateLast.getTime()));
             
@@ -242,10 +212,7 @@ public class DatabaseQueries {
             Flight flight = null;
              
             String q = 
-                    "SELECT f1.id, flno, dateof, timeof, origin, destination, traveltime, "
-                    + "a1.airportname, a2.airportname from flights f1 "
-                    + "JOIN airports a1 on origin = a1.id "
-                    + "JOIN airports a2 on destination = a2.id "
+                    "SELECT f1.id, flno, dateof, timeof, origin, destination, traveltime "
                     + "WHERE f1.id = ?";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
             cpst.pst.setInt(1, id);
@@ -260,8 +227,8 @@ public class DatabaseQueries {
                         rs.getInt(1),
                         rs.getString(2),
                         time,
-                        new Airport(rs.getInt(5), rs.getString(8)),
-                        new Airport(rs.getInt(6), rs.getString(9)),
+                        new Airport(rs.getString(5)),
+                        new Airport(rs.getString(6)),
                         rs.getInt(7),
                         seats
                 );
