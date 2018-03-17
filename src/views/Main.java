@@ -5,6 +5,7 @@
  */
 package views;
 
+import datastructures.Flight;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,12 +15,15 @@ import javax.swing.JPanel;
  * @author greta
  */
 public class Main extends javax.swing.JFrame {
-
+    private SearchView searchView;
+    private FlightInfoView flightInfoView;
+    
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
+        this.searchView = new SearchView(this);
     }
 
     /**
@@ -37,7 +41,32 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Loads a SearchView
+     */
+    public void loadSearchView() {
+        if(this.flightInfoView != null) {
+            this.remove(this.flightInfoView);
+            this.flightInfoView = null;
+        }
+        this.add(searchView, BorderLayout.CENTER);
+        this.pack();
+        this.revalidate();
+    }
+    
+    /**
+     * Loads a FlightView
+     * @param flight 
+     */
+    public void loadFlightInfoView(Flight flight) {
+        this.remove(searchView);
+        this.flightInfoView = new FlightInfoView(this, flight);
+        this.add(this.flightInfoView, BorderLayout.CENTER);
+        this.pack();
+        this.revalidate();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -68,12 +97,9 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JFrame frame = new Main();
-                JPanel searchView = new SearchView();
-                frame.add(searchView, BorderLayout.CENTER);
-                frame.pack();
+                Main frame = new Main();
+                frame.loadSearchView();
                 frame.setVisible(true);
-                
             }
         });
     }

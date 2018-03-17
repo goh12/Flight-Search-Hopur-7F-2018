@@ -18,7 +18,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -74,6 +78,19 @@ public class Utilities {
     }
 
     public static JTable tableFromFlights(Flights flights) {
-        return new JTable(new FlightSearchTableModel(flights));
+        JTable table = new JTable(new FlightSearchTableModel(flights));
+        
+        //Miðja texta
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        
+        TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
+        JLabel headerLabel = (JLabel) rendererFromHeader;
+        headerLabel.setHorizontalAlignment(JLabel.CENTER);
+        for(int x=0;x<5;x++){   
+         table.getColumnModel().getColumn(x).setCellRenderer( centerRenderer );
+        }
+        
+        return table;
     }
 }

@@ -6,6 +6,7 @@
 package views;
 
 import containers.Flights;
+import datastructures.Flight;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import utils.Utilities;
 
@@ -22,16 +24,19 @@ import utils.Utilities;
  * @author greta
  */
 class SearchView extends javax.swing.JPanel {
-    private JTable currentTable;
-    private Flights currentFlights;
-    private boolean flightsDateOrderAsc = true;
-    private SimpleDateFormat df;
+    private final Main parent;                      //Parent holding all views.
+    private JTable currentTable;                //Current table holding searched flights
+    private Flights currentFlights;             //Current list of flights in table
+    private boolean flightsDateOrderAsc = true; //Current date order of flights.
+    private final SimpleDateFormat df;                //Object to format and read dates.
+    private int selectedRow = -1;               //Currently selected row in table
     
     /**
      * Creates new form SearchView
      */
-    SearchView() {
+    SearchView(Main main) {
         initComponents();
+        this.parent = main;
         currentTable = null;
         df = new SimpleDateFormat("dd/MM/yyyy");
     }
@@ -180,6 +185,13 @@ class SearchView extends javax.swing.JPanel {
     }//GEN-LAST:event_search
     
     /**
+     * Loads flight view after selecting a flight in table.
+     * @param flight 
+     */
+    private void goToFlightInfoView(Flight flight) {
+        this.parent.loadFlightInfoView(flight);
+    }
+    /**
      * Renders table of flights onto jTableContainer
      */
     private void renderTable() {
@@ -192,6 +204,8 @@ class SearchView extends javax.swing.JPanel {
         jTableContainer.add(currentTable.getTableHeader(), BorderLayout.NORTH);
         jTableContainer.add(currentTable, BorderLayout.CENTER);
         setHeaderEvents();
+        setTableEvents();
+        selectedRow = -1;
         this.revalidate();
     }
     
@@ -200,19 +214,47 @@ class SearchView extends javax.swing.JPanel {
      */
     private void setHeaderEvents() {
         currentTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            /**
+             * If a flights is selected twice in a row, calls to load
+             * a new FlightInfoView holding the information about the
+             * chosen flight.
+             * @param e 
+             */
             @Override
             public void mouseClicked(MouseEvent e) {
                 int col = currentTable.columnAtPoint(e.getPoint());
                 switch(col) {
                     case 0:
+                    case 1:
                         flightsDateOrderAsc = !flightsDateOrderAsc;
                         currentFlights.sortFlightsByDate(flightsDateOrderAsc);
                         break;
-                    case 3:
+                    case 4:
                         currentFlights.sortByPrice();
                         renderTable();
                         break;
                 }
+            }
+            
+        });
+    }
+    
+    /**
+     * Attaches event handlers to JTable holding the list of flights
+     * that was last searched.
+     */
+    private void setTableEvents() {
+        currentTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int clickedRow = currentTable.getSelectedRow();
+                if(selectedRow == clickedRow) {
+                    goToFlightInfoView(currentFlights.getFlights().get(clickedRow));
+                } else {
+                    selectedRow = clickedRow;
+                }
+                super.mouseClicked(e);
+                
             }
             
         });

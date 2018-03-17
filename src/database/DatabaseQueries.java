@@ -57,7 +57,7 @@ public class DatabaseQueries {
         String q = "SELECT airportname FROM airports WHERE lower(airportname) LIKE lower(?)";
         ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
 
-        cpst.pst.setString(1, airportname);
+        cpst.pst.setString(1, "%"+airportname+"%");
         ResultSet rs =  cpst.pst.executeQuery();
         if (rs.next()) {
             name = rs.getString(1);
