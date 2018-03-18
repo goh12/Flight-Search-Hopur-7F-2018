@@ -39,6 +39,7 @@ class SearchView extends javax.swing.JPanel {
         this.parent = main;
         currentTable = null;
         df = new SimpleDateFormat("dd/MM/yyyy");
+        search(null);
     }
 
     /**
@@ -63,6 +64,10 @@ class SearchView extends javax.swing.JPanel {
         jDateLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+
+        jOriginTextField.setText("reyk");
+
+        jDestinationTextField.setText("egi");
 
         jOriginLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         jOriginLabel.setText("Brottfararstaður:");
@@ -91,12 +96,10 @@ class SearchView extends javax.swing.JPanel {
         jTableContainerScroll.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTableContainerScroll.setMaximumSize(new java.awt.Dimension(780, 400));
         jTableContainerScroll.setMinimumSize(new java.awt.Dimension(780, 400));
-        jTableContainerScroll.setPreferredSize(null);
 
         jTableContainer.setBackground(new java.awt.Color(255, 255, 255));
         jTableContainer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTableContainer.setAutoscrolls(true);
-        jTableContainer.setPreferredSize(null);
         jTableContainer.setLayout(new java.awt.BorderLayout());
         jTableContainerScroll.setViewportView(jTableContainer);
 

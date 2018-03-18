@@ -6,6 +6,8 @@
 package views;
 
 import datastructures.Flight;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -13,6 +15,9 @@ import datastructures.Flight;
  */
 public class FlightInfoView extends javax.swing.JPanel {
     private final Main parent;
+    private final Flight flight;
+    private final SimpleDateFormat df;
+    private final SimpleDateFormat tf;
 
     /**
      * Creates new form FlightInfoView
@@ -22,7 +27,24 @@ public class FlightInfoView extends javax.swing.JPanel {
     public FlightInfoView(Main main, Flight flight) {
         initComponents();
         this.parent = main;
-        jTextArea.setText(flight.toString());
+        this.flight = flight;
+        this.df = new SimpleDateFormat("dd. MMM yyyy");
+        this.tf = new SimpleDateFormat("HH:mm:ss");
+        loadInfo();
+    }
+    
+    public void loadInfo() {
+        //
+        String inf = this.flight.getOrigin().getName() + " til " + 
+                this.flight.getDestination().getName();
+        jOriginAndDestination.setText(inf);
+        //Tímasetningar
+        jFlightDate.setText(this.df.format(this.flight.getDate()));
+        jFlightTime.setText(this.tf.format(this.flight.getDate()));
+        int flightLength = this.flight.getTraveltime()*60 * 1000;
+        Date arrivalTime = new Date(this.flight.getDate().getTime() + flightLength);
+        jFlightArrivalTime.setText(this.tf.format(arrivalTime));
+        
     }
 
     /**
@@ -34,20 +56,47 @@ public class FlightInfoView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        jBackToSearchView = new javax.swing.JButton();
+        jFlightTime = new javax.swing.JLabel();
+        jFlightDate = new javax.swing.JLabel();
+        jFlightTimeLabel = new javax.swing.JLabel();
+        jFlightDateLabel = new javax.swing.JLabel();
+        jFlightArrivalTimeLabel = new javax.swing.JLabel();
+        jFlightArrivalTime = new javax.swing.JLabel();
+        jHeader = new javax.swing.JLabel();
+        jOriginAndDestination = new javax.swing.JLabel();
 
-        jTextArea.setColumns(20);
-        jTextArea.setRows(5);
-        jScrollPane1.setViewportView(jTextArea);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(600, 400));
 
-        jButton1.setText("Back to serch");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBackToSearchView.setBackground(new java.awt.Color(204, 204, 255));
+        jBackToSearchView.setFont(new java.awt.Font("Courier New", 1, 11)); // NOI18N
+        jBackToSearchView.setText("<-");
+        jBackToSearchView.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goToSearchView(evt);
             }
         });
+
+        jFlightTime.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+
+        jFlightDate.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+
+        jFlightTimeLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        jFlightTimeLabel.setText("Áætlaður farartími:");
+
+        jFlightDateLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        jFlightDateLabel.setText("Dags:");
+
+        jFlightArrivalTimeLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        jFlightArrivalTimeLabel.setText("Áætlaður komutími:");
+
+        jFlightArrivalTime.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+
+        jHeader.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
+        jHeader.setText("Upplýsingar");
+
+        jOriginAndDestination.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -57,19 +106,49 @@ public class FlightInfoView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(jBackToSearchView)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jFlightTimeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jFlightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jFlightDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jFlightDate, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jFlightArrivalTimeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jFlightArrivalTime, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 243, Short.MAX_VALUE))
+                    .addComponent(jOriginAndDestination, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(65, 65, 65)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBackToSearchView, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addComponent(jOriginAndDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFlightDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFlightDate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFlightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFlightTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFlightArrivalTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFlightArrivalTime, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -84,8 +163,14 @@ public class FlightInfoView extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea;
+    private javax.swing.JButton jBackToSearchView;
+    private javax.swing.JLabel jFlightArrivalTime;
+    private javax.swing.JLabel jFlightArrivalTimeLabel;
+    private javax.swing.JLabel jFlightDate;
+    private javax.swing.JLabel jFlightDateLabel;
+    private javax.swing.JLabel jFlightTime;
+    private javax.swing.JLabel jFlightTimeLabel;
+    private javax.swing.JLabel jHeader;
+    private javax.swing.JLabel jOriginAndDestination;
     // End of variables declaration//GEN-END:variables
 }
