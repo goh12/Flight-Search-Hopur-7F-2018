@@ -252,6 +252,7 @@ class SearchView extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e) {
                 int clickedRow = currentTable.getSelectedRow();
                 if(selectedRow == clickedRow) {
+                    if (clickedRow == -1) return;
                     goToFlightInfoView(currentFlights.getFlights().get(clickedRow));
                 } else {
                     selectedRow = clickedRow;

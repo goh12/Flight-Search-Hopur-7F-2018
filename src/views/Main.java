@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 public class Main extends javax.swing.JFrame {
     private SearchView searchView;
     private FlightInfoView flightInfoView;
+    private BookingsView bookingsView;
     
     /**
      * Creates new form Main
@@ -37,6 +38,7 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flight Search");
+        setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         pack();
@@ -52,7 +54,7 @@ public class Main extends javax.swing.JFrame {
         }
         this.add(searchView, BorderLayout.CENTER);
         this.pack();
-        this.revalidate();
+        this.repaint();
     }
     
     /**
@@ -60,11 +62,31 @@ public class Main extends javax.swing.JFrame {
      * @param flight 
      */
     public void loadFlightInfoView(Flight flight) {
-        this.remove(searchView);
-        this.flightInfoView = new FlightInfoView(this, flight);
+        if (this.bookingsView != null) {
+            this.remove(this.bookingsView);
+            this.bookingsView = null;
+        } else {
+            this.remove(searchView);
+        }
+        
+        if(flight != null) {
+            this.flightInfoView = new FlightInfoView(this, flight);
+        }
         this.add(this.flightInfoView, BorderLayout.CENTER);
         this.pack();
-        this.revalidate();
+        this.repaint();
+    }
+    
+    /**
+     * Loads a BookingsView
+     * @param flight 
+     */
+    public void loadBookingsView(Flight flight) {
+        this.remove(this.flightInfoView);
+        this.bookingsView = new BookingsView(this, flight);
+        this.add(this.bookingsView, BorderLayout.CENTER);
+        this.pack();
+        this.repaint();
     }
     
     /**
