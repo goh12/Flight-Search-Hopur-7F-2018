@@ -24,8 +24,9 @@ public class Bookings {
      * Bókar sæti (Notar DatabaseController til að uppfæra gagnagrunn þegar allar
      * bókanir sem notandi vill eru komnar í bookings lista)
      */
-    public void bookSeats() {
-        DatabaseQueries.bookSeats(bookings);
+    public int bookSeats() {
+        if (DatabaseQueries.bookSeats(bookings) == 0) return 0;
+        return -1;
     }
     
     /**

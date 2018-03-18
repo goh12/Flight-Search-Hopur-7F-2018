@@ -10,7 +10,7 @@ package datastructures;
 public class Seat {
     private final int flightId; // id bókunar í gagnagrunni
     private final String seatId;  // heildarfjöldi sæta í gagnagrunni
-    private final boolean booked; // fjöldi booked í gagnagrunni
+    private boolean booked; // fjöldi booked í gagnagrunni
     
     /**
      * Smiður
@@ -34,6 +34,10 @@ public class Seat {
 
     public boolean isBooked() {
         return booked;
+    }
+    
+    public void setBooked() {
+        booked = true;
     }
     
     public String toString() {

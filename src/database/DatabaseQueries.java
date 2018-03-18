@@ -464,15 +464,22 @@ public class DatabaseQueries {
         try {
             User user = null;
             String q = "INSERT INTO bookings (ssn, flightid, seatid) VALUES(?, ?, ?)";
+            String q2 = "UPDATE seats SET booked = 't' WHERE flightid = ? AND seatid = ?";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            ConnectionPreparedStatement cpst2 = DatabaseController.getConnectionPreparedStatement(q2);
             for (Booking b : bookings){
                 
                 cpst.pst.setString(1, b.getSsn());
                 cpst.pst.setInt(2, b.getFlightId());
                 cpst.pst.setString(3, b.getSeatId());
                 cpst.pst.addBatch();
+                
+                cpst2.pst.setInt(1, b.getFlightId());
+                cpst2.pst.setString(2, b.getSeatId());
+                cpst2.pst.addBatch();
             }
             cpst.pst.executeBatch();
+            cpst2.pst.executeBatch();
             cpst.close();
             return 0;
         } catch (SQLException e) {

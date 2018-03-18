@@ -36,6 +36,18 @@ public class Booking {
         this.flightId = flightId;
         this.seatId = seatId;
     }
+    
+    /**
+     * Smiður
+     * @param flightId
+     * @param ssn 
+     */
+    public Booking(String ssn, Seat seat) {
+        this.id = -1;
+        this.ssn = ssn;
+        this.flightId = seat.getFlightId();
+        this.seatId = seat.getSeatId();
+    }
 
     public int getId() {
         return id;

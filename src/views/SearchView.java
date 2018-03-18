@@ -39,7 +39,6 @@ class SearchView extends javax.swing.JPanel {
         this.parent = main;
         currentTable = null;
         df = new SimpleDateFormat("dd/MM/yyyy");
-        search(null);
     }
 
     /**
@@ -64,10 +63,6 @@ class SearchView extends javax.swing.JPanel {
         jDateLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-
-        jOriginTextField.setText("reyk");
-
-        jDestinationTextField.setText("egi");
 
         jOriginLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         jOriginLabel.setText("Brottfararstaður:");

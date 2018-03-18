@@ -86,14 +86,8 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="jOriginTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="reyk"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jDestinationTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="egi"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jOriginLabel">
       <Properties>

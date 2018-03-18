@@ -7,6 +7,8 @@ package datastructures;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -103,6 +105,28 @@ public class Flight {
     public String toString() {
         return origin.toString() + " til " + destination.toString() + ". " +
                 date.toString();
+    }
+    
+    
+    public void orderSeats() {
+        Collections.sort(this.seats, new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                String regex = "[^A-Z0-9]+|(?<=[A-Z])(?=[0-9])|(?<=[0-9])(?=[A-Z])";
+                Seat s1 = (Seat) o1;
+                Seat s2 = (Seat) o2;
+                String[] split1 = s1.getSeatId().split(regex);
+                String[] split2 = s2.getSeatId().split(regex);
+                
+                Integer i1 = Integer.parseInt(split1[0]);
+                Integer i2 = Integer.parseInt(split2[0]);
+                int sComp = i1.compareTo(i2);
+                if (sComp != 0) {
+                   return sComp;
+                } else {
+                   return split1[1].compareTo(split2[1]);
+                }
+        }});
     }
     
 }

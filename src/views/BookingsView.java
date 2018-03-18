@@ -6,12 +6,16 @@
 package views;
 
 import static com.sun.javafx.iio.ImageStorage.ImageType.RGBA;
+import containers.Bookings;
+import datastructures.Booking;
 import datastructures.Flight;
 import datastructures.Seat;
+import datastructures.User;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +43,7 @@ public class BookingsView extends javax.swing.JPanel {
         initComponents();
         this.parent = main;
         this.flight = flight;
+        this.flight.orderSeats();
         this.df = new SimpleDateFormat("dd. MMM yyyy");
         this.tf = new SimpleDateFormat("HH:mm:ss");
         this.selectedSeats = new ArrayList<Seat>();
@@ -96,6 +101,7 @@ public class BookingsView extends javax.swing.JPanel {
                 seat.setSelected();
                 if (seat.isSelected()) selectedSeats.add(seat.getSeat());
                 else selectedSeats.remove(seat.getSeat());
+                calculatePrice();
             }
         });
     }
@@ -124,6 +130,7 @@ public class BookingsView extends javax.swing.JPanel {
         jSSNLabel = new javax.swing.JLabel();
         jSSN = new javax.swing.JTextField();
         jNameLabel = new javax.swing.JLabel();
+        jPrice = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -166,8 +173,7 @@ public class BookingsView extends javax.swing.JPanel {
         });
 
         jSeatContainer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jSeatContainer.setPreferredSize(null);
-        jSeatContainer.setLayout(new java.awt.GridLayout());
+        jSeatContainer.setLayout(new java.awt.GridLayout(1, 0));
 
         jName.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
         jName.setToolTipText("AMK 2 stafir");
@@ -181,6 +187,10 @@ public class BookingsView extends javax.swing.JPanel {
         jNameLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         jNameLabel.setText("Nafn:");
 
+        jPrice.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        jPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPrice.setText("0 kr.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,6 +199,24 @@ public class BookingsView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeatContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jBackToSearchView)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSSNLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jName, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSSN, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBookSeats))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,30 +231,11 @@ public class BookingsView extends javax.swing.JPanel {
                                         .addComponent(jFlightTimeLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jFlightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 135, Short.MAX_VALUE))))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jBackToSearchView)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jFlightArrivalTimeLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jFlightArrivalTime, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jSSNLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jName, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jSSN, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jBookSeats))))))
+                                .addGap(0, 135, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jFlightArrivalTimeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jFlightArrivalTime, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -255,7 +264,8 @@ public class BookingsView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSSNLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,13 +284,29 @@ public class BookingsView extends javax.swing.JPanel {
         parent.loadFlightInfoView(null);
     }//GEN-LAST:event_goToFlightInfoView
 
+    
+    
     private void bookSeats(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookSeats
         boolean nameValidated = validateName();
         boolean ssnValidated = validateSSN();
         
-        if (!nameValidated || !ssnValidated) {
-            
+        if (!nameValidated || !ssnValidated) return;
+        if (selectedSeats.size() < 1) return;
+        
+        User newUser = new User(jSSN.getText(), jName.getText());
+        Bookings bookings = new Bookings();
+        for (Seat s : selectedSeats) {
+            bookings.addBooking(new Booking(newUser.getSsn(), s));
         }
+        
+        if (bookings.bookSeats() == 0){
+            for (Seat s : selectedSeats) {
+                s.setBooked();
+            }
+        }
+    
+        
+        parent.loadFlightInfoView(this.flight);
     }//GEN-LAST:event_bookSeats
 
     /**
@@ -306,6 +332,15 @@ public class BookingsView extends javax.swing.JPanel {
         return matches;
     }
     
+    /**
+     * Calculates price of selected seats;
+     */
+    private void calculatePrice() {
+        DecimalFormat cf = new DecimalFormat("###,###,###");
+        int price = this.flight.getPrice() * this.selectedSeats.size();
+        jPrice.setText(String.format("%s kr.", cf.format(price)));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBackToSearchView;
     private javax.swing.JButton jBookSeats;
@@ -319,6 +354,7 @@ public class BookingsView extends javax.swing.JPanel {
     private javax.swing.JTextField jName;
     private javax.swing.JLabel jNameLabel;
     private javax.swing.JLabel jOriginAndDestination;
+    private javax.swing.JLabel jPrice;
     private javax.swing.JTextField jSSN;
     private javax.swing.JLabel jSSNLabel;
     private javax.swing.JPanel jSeatContainer;
