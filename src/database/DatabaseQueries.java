@@ -401,7 +401,7 @@ public class DatabaseQueries {
         try {
             User user = null;
             
-            String q = "SELECT * FROM users WHERE ssn = ?";
+            String q = "SELECT (ssn, name) FROM users WHERE ssn = ?";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
             cpst.pst.setString(1, ssn);
             ResultSet rs = cpst.pst.executeQuery();
@@ -409,7 +409,8 @@ public class DatabaseQueries {
             if(rs.next()) {
                 user = new User(
                         rs.getString(1),
-                        rs.getString(2)
+                        rs.getString(2),
+                        rs.getString(3)
                 );
             }
             
@@ -427,16 +428,18 @@ public class DatabaseQueries {
      * Býr til nýan user í gagnagrunn.
      * @param ssn kt notanda
      * @param name nafn notanda
+     * @param password lykilorð notanda
      * @return -1 ef notandi er til, -2 ef óþekkt villa kemur upp, annars 1
      */
-    public static int newUser(String ssn, String name) {
+    public static int newUser(String ssn, String name, String password) {
         try {
             User user = null;
             
-            String q = "INSERT INTO users (ssn, name) VALUES(?, ?)";
+            String q = "INSERT INTO users (ssn, name, password) VALUES(?, ?, ?)";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
             cpst.pst.setString(1, ssn);
             cpst.pst.setString(2, name);
+            cpst.pst.setString(3, password);
             
             int executeUpdate = cpst.pst.executeUpdate();
             

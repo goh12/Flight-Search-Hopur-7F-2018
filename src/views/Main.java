@@ -18,6 +18,7 @@ public class Main extends javax.swing.JFrame {
     private SearchView searchView;
     private FlightInfoView flightInfoView;
     private BookingsView bookingsView;
+    private LoginView loginView;
     
     /**
      * Creates new form Main
@@ -51,6 +52,10 @@ public class Main extends javax.swing.JFrame {
         if(this.flightInfoView != null) {
             this.remove(this.flightInfoView);
             this.flightInfoView = null;
+        }
+        if(this.loginView != null) {
+            this.remove(this.loginView);
+            this.loginView = null;
         }
         this.add(searchView, BorderLayout.CENTER);
         this.pack();
@@ -89,6 +94,16 @@ public class Main extends javax.swing.JFrame {
         this.repaint();
     }
     
+    /**
+     * 
+     */
+     public void loadLoginView() {
+         this.remove(searchView);
+         this.loginView = new LoginView(this);
+         this.add(this.loginView, BorderLayout.CENTER);
+         this.pack();
+         this.repaint();
+     }
     /**
      * @param args the command line arguments
      */

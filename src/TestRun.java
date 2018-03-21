@@ -70,7 +70,7 @@ public class TestRun {
             Flight flight = flightsBDate.getFlights().get(0);
             
             
-            User petur = new User("2604823199","Petur");
+            User petur = new User("2604823199","Petur","123456");
             Booking bkn = new Booking(petur.getSsn(),flight.getId(),flight.getSeats().get(0).getSeatId());
             Bookings bkns = new Bookings();
             bkns.addBooking(bkn);
