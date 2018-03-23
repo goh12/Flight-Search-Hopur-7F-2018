@@ -205,6 +205,7 @@ class SearchView extends javax.swing.JPanel {
     private void goToFlightInfoView(Flight flight) {
         this.parent.loadFlightInfoView(flight);
     }
+    
     /**
      * Renders table of flights onto jTableContainer
      */

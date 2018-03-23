@@ -8,6 +8,7 @@ package utils;
 import containers.Flights;
 import static database.DatabaseQueries.getSeatsByFlightId;
 import datastructures.Airport;
+import datastructures.Booking;
 import datastructures.Flight;
 import datastructures.Seat;
 import java.sql.ResultSet;
@@ -21,7 +22,6 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -88,6 +88,23 @@ public class Utilities {
         JLabel headerLabel = (JLabel) rendererFromHeader;
         headerLabel.setHorizontalAlignment(JLabel.CENTER);
         for(int x=0;x<5;x++){   
+         table.getColumnModel().getColumn(x).setCellRenderer( centerRenderer );
+        }
+        
+        return table;
+    }
+    
+    public static JTable tableFromBookings(ArrayList<Booking> bookings) {
+        JTable table = new JTable(new MyBookingsTableModel(bookings));
+        
+        //Miðja texta
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        
+        TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
+        JLabel headerLabel = (JLabel) rendererFromHeader;
+        headerLabel.setHorizontalAlignment(JLabel.CENTER);
+        for(int x=0;x<4;x++){   
          table.getColumnModel().getColumn(x).setCellRenderer( centerRenderer );
         }
         

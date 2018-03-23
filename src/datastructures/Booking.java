@@ -3,6 +3,8 @@
 */
 package datastructures;
 
+import database.DatabaseQueries;
+
 /**
  *
  * @author gudmu
@@ -43,7 +45,7 @@ public class Booking {
      * @param ssn 
      */
     public Booking(String ssn, Seat seat) {
-        this.id = -1;
+        this.id = DatabaseQueries.getBookingId(ssn, seat.getFlightId());
         this.ssn = ssn;
         this.flightId = seat.getFlightId();
         this.seatId = seat.getSeatId();

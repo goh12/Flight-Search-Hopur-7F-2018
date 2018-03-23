@@ -5,23 +5,33 @@
  */
 package views;
 
+import containers.Bookings;
 import datastructures.Flight;
 import datastructures.User;
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  *
  * @author greta
  */
 public class Main extends javax.swing.JFrame {
-    private SearchView searchView;
+    private final SearchView searchView;
     private FlightInfoView flightInfoView;
     private BookingsView bookingsView;
     private LoginView loginView;
+    private final MyBookingsView myBookingsView;
     private Flight currentFlight;
     private User loggedInUser;
+    
+    /**
+     * Creates new form Main
+     */
+    public Main() {
+        initComponents();
+        this.searchView = new SearchView(this);
+        this.myBookingsView = new MyBookingsView(this, null, "search");
+        loggedInUser = null;
+    }
 
     public User getLoggedInUser() {
         return loggedInUser;
@@ -30,15 +40,6 @@ public class Main extends javax.swing.JFrame {
     public void setLoggedInUser(User user) {
         loggedInUser = user;
     }
-    
-    /**
-     * Creates new form Main
-     */
-    public Main() {
-        initComponents();
-        this.searchView = new SearchView(this);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,6 +53,7 @@ public class Main extends javax.swing.JFrame {
         jLogin = new javax.swing.JMenu();
         jInnskraning = new javax.swing.JMenuItem();
         jRegister = new javax.swing.JMenuItem();
+        jLogout = new javax.swing.JMenuItem();
         jMyBookings = new javax.swing.JMenuItem();
         jExit = new javax.swing.JMenuItem();
 
@@ -78,7 +80,20 @@ public class Main extends javax.swing.JFrame {
         });
         jLogin.add(jRegister);
 
+        jLogout.setText("Útskráning");
+        jLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jLogoutActionPerformed(evt);
+            }
+        });
+        jLogin.add(jLogout);
+
         jMyBookings.setText("Mínar bókanir");
+        jMyBookings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMyBookingsActionPerformed(evt);
+            }
+        });
         jLogin.add(jMyBookings);
 
         jExit.setText("Hætta");
@@ -107,6 +122,15 @@ public class Main extends javax.swing.JFrame {
     private void jRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegisterActionPerformed
         loadLoginView("Nýskráning");       
     }//GEN-LAST:event_jRegisterActionPerformed
+
+    private void jLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLogoutActionPerformed
+        this.loggedInUser = null;
+        this.myBookingsView.updateMyBookings(null);
+    }//GEN-LAST:event_jLogoutActionPerformed
+
+    private void jMyBookingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMyBookingsActionPerformed
+        loadMyBookingsView();
+    }//GEN-LAST:event_jMyBookingsActionPerformed
     
     /**
      * Loads a SearchView
@@ -119,6 +143,9 @@ public class Main extends javax.swing.JFrame {
         if(this.loginView != null) {
             this.remove(this.loginView);
             this.loginView = null;
+        } 
+        if (this.myBookingsView != null){
+            this.remove(this.myBookingsView);
         }
         this.add(searchView, BorderLayout.CENTER);
         this.pack();
@@ -130,11 +157,13 @@ public class Main extends javax.swing.JFrame {
      * @param flight 
      */
     public void loadFlightInfoView(Flight flight) {
+        if (this.myBookingsView != null){
+            this.remove(this.myBookingsView);
+        } 
         if(this.loginView != null) {
             this.remove(this.loginView);
             this.loginView = null;
-        }
-        if (this.bookingsView != null) {
+        } else if (this.bookingsView != null) {
             this.remove(this.bookingsView);
             this.bookingsView = null;
         } else {
@@ -164,6 +193,9 @@ public class Main extends javax.swing.JFrame {
             this.remove(this.loginView);
             this.loginView = null;
         }
+        if (this.myBookingsView != null){
+            this.remove(this.myBookingsView);
+        }
         this.bookingsView = new BookingsView(this, flight);
         this.add(this.bookingsView, BorderLayout.CENTER);
         this.pack();
@@ -171,20 +203,27 @@ public class Main extends javax.swing.JFrame {
     }
     
     /**
-     * 
+     * Loads a LoginView
+     * @param buttonStatus
      */
      public void loadLoginView(String buttonStatus) {
-        
+         
          String prevOn = null;
         
          if (this.loginView != null) {
              return;
          }
+         
+         if (this.myBookingsView != null){
+            this.remove(this.myBookingsView);
+            prevOn = "myBookings";
+        } 
         if (this.bookingsView != null) {
             this.remove(this.bookingsView);
             this.bookingsView = null;
             prevOn = "booking";
-        } else if (this.flightInfoView != null) {
+        }
+        if (this.flightInfoView != null) {
             this.remove(this.flightInfoView);
             this.flightInfoView = null;
             prevOn = "info";
@@ -198,6 +237,45 @@ public class Main extends javax.swing.JFrame {
         this.add(this.loginView, BorderLayout.CENTER);
         this.pack();
         this.repaint();
+     }
+     
+    
+     public void setMyBookings(Bookings myBookings) {
+         myBookingsView.updateMyBookings(myBookings);
+     }
+     
+     /**
+      * Loads a BookingsView
+      */
+     public void loadMyBookingsView() {
+         String prevOn = null;
+
+         if (this.bookingsView != null) {
+            this.remove(this.bookingsView);
+            prevOn = "booking";
+         }
+         if (this.flightInfoView != null) {
+            this.remove(this.flightInfoView);
+            this.flightInfoView = null;
+            prevOn = "info";
+         } else if (this.loginView != null) {
+             this.remove(this.loginView);
+             this.loginView = null;
+             prevOn = "login";
+         } else {
+            this.remove(searchView);
+            this.currentFlight = null;
+            prevOn = "search";
+        }
+         
+         this.myBookingsView.setPrevOn(prevOn);
+         this.myBookingsView.setCurrentFlight(currentFlight);
+         this.myBookingsView.setLoggedInUser(this.loggedInUser);
+         this.myBookingsView.setHeader();
+         
+         this.add(this.myBookingsView, BorderLayout.CENTER);
+         this.pack();
+         this.repaint();
      }
     /**
      * @param args the command line arguments
@@ -242,6 +320,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jExit;
     private javax.swing.JMenuItem jInnskraning;
     private javax.swing.JMenu jLogin;
+    private javax.swing.JMenuItem jLogout;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMyBookings;
     private javax.swing.JMenuItem jRegister;

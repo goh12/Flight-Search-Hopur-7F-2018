@@ -5,6 +5,7 @@
  */
 package views;
 
+import containers.Bookings;
 import datastructures.User;
 import java.awt.Color;
 import database.DatabaseQueries;
@@ -16,13 +17,15 @@ import datastructures.Flight;
  */
 public class LoginView extends javax.swing.JPanel {
     private final Main parent;          //Parent JFrame
-    private Flight flight;
-    private String prevOn;
-    private String buttonStatus;
+    private final Flight flight;
+    private final String prevOn;
+    private final String buttonStatus;
     /**
      * Creates new form loginView
      * @param main
      * @param flight
+     * @param prevOn
+     * @param buttonStatus
      */
     public LoginView(Main main, Flight flight, String prevOn, String buttonStatus) {
         initComponents();
@@ -165,12 +168,19 @@ public class LoginView extends javax.swing.JPanel {
         String passwordInput = new String(jPassword.getPassword());
         String ssnInput = jKennitalaTextField.getText().replace("-", "");
 
-        if (buttonStatus == "Innskráning") {
+        if ("Innskráning".equals(buttonStatus)) {
             User loggedIn = DatabaseQueries.getUser(ssnInput, usernameInput, passwordInput);
             this.parent.setLoggedInUser(loggedIn);
-            goToPrevPanel();
+            if(loggedIn == null) {
+                jErrorMessage.setText("Innskráning mistókst");
+                return;
+            } else {
+                jErrorMessage.setText("");
+                Bookings existingBookings = new Bookings(DatabaseQueries.getUserBookings(loggedIn.getSsn()));
+                this.parent.setMyBookings(existingBookings);
+            }
         }
-        if (buttonStatus == "Nýskráning") {
+        if ("Nýskráning".equals(buttonStatus)) {
             int err = DatabaseQueries.newUser(ssnInput, usernameInput, passwordInput); 
             if(err == -1) {
                 jErrorMessage.setText("Þessi kennitala er nú þegar í notkun");
@@ -179,11 +189,10 @@ public class LoginView extends javax.swing.JPanel {
                 jErrorMessage.setText("");
                 User newUser = new User(ssnInput, usernameInput, passwordInput);
                 this.parent.setLoggedInUser(newUser);
-                System.out.println("You are logged in!");
-                goToPrevPanel();
             }  
             
         }
+        goToPrevPanel();
     }//GEN-LAST:event_jRegisterActionPerformed
 
     private void jGoToPrevPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGoToPrevPanelActionPerformed
@@ -195,12 +204,20 @@ public class LoginView extends javax.swing.JPanel {
      * 
      */
     private void goToPrevPanel() {
-        if (prevOn == "booking") {
+
+    switch (prevOn) {
+        case "booking":
             this.parent.loadBookingsView(flight);
-        } else if (prevOn == "info") {
+            break;
+        case "info":
             this.parent.loadFlightInfoView(flight);
-        } else {
+            break;
+        case "myBookings":
+            this.parent.loadMyBookingsView();
+            break;
+        default:
             this.parent.loadSearchView();
+            break;
         }        
     }
     /**

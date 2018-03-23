@@ -19,7 +19,13 @@ public class Bookings {
         bookings = new ArrayList<Booking>();
     }
     
-    
+    /**
+     * þessi smiður er ef bókanir eru til á notanda
+     * @param existingBookings 
+     */
+    public Bookings(ArrayList<Booking> existingBookings) {
+        this.bookings = existingBookings;
+    }
     /**
      * Bókar sæti (Notar DatabaseController til að uppfæra gagnagrunn þegar allar
      * bókanir sem notandi vill eru komnar í bookings lista)
@@ -35,4 +41,8 @@ public class Bookings {
     public void addBooking(Booking b) {
         bookings.add(b);
     } 
+    
+    public ArrayList<Booking> getBookings() {
+        return this.bookings;
+    }
 }

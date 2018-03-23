@@ -126,13 +126,8 @@ public class BookingsView extends javax.swing.JPanel {
         jOriginAndDestination = new javax.swing.JLabel();
         jBookSeats = new javax.swing.JButton();
         jSeatContainer = new javax.swing.JPanel();
-        jName = new javax.swing.JTextField();
-        jSSNLabel = new javax.swing.JLabel();
-        jSSN = new javax.swing.JTextField();
         jPrice = new javax.swing.JLabel();
-        jNameLabel = new javax.swing.JLabel();
-        jPassword = new javax.swing.JPasswordField();
-        passwordLabel = new javax.swing.JLabel();
+        jErrorMessage = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -177,26 +172,11 @@ public class BookingsView extends javax.swing.JPanel {
         jSeatContainer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jSeatContainer.setLayout(new java.awt.GridLayout(1, 0));
 
-        jName.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
-        jName.setToolTipText("AMK 2 stafir");
-
-        jSSNLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
-        jSSNLabel.setText("Kennitala:");
-
-        jSSN.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
-        jSSN.setToolTipText("123456-7890");
-
         jPrice.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         jPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jPrice.setText("0 kr.");
 
-        jNameLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
-        jNameLabel.setText("Nafn:");
-
-        jPassword.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
-
-        passwordLabel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
-        passwordLabel.setText("Lykilorð:");
+        jErrorMessage.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -206,20 +186,15 @@ public class BookingsView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSSNLabel)
-                            .addComponent(passwordLabel))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(455, 455, 455)
+                                .addComponent(jBookSeats))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(jErrorMessage)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jSSN, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jName, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBookSeats)))
+                        .addComponent(jPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeatContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,39 +235,27 @@ public class BookingsView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jFlightTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFlightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFlightArrivalTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFlightArrivalTime, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(15, 15, 15)
-                        .addComponent(jSeatContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(jPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jFlightTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jFlightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBookSeats)
-                                .addContainerGap(26, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(passwordLabel))
-                                .addGap(12, 12, 12)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jSSN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSSNLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jOriginAndDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jFlightArrivalTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jFlightArrivalTime, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(15, 15, 15)
+                                .addComponent(jSeatContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jOriginAndDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jErrorMessage))
+                        .addContainerGap(56, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jBookSeats)
+                        .addGap(34, 34, 34))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -308,17 +271,20 @@ public class BookingsView extends javax.swing.JPanel {
     
     
     private void bookSeats(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookSeats
-        boolean nameValidated = validateName();
-        boolean ssnValidated = validateSSN();
-        boolean passwordValidated = validatePassword();
+        User loggedUser = parent.getLoggedInUser();
+        if(loggedUser == null) {
+            jErrorMessage.setText("Þú verður að skrá þig inn til að bóka");
+            return;
+        }
+  
+        if (selectedSeats.size() < 1) {
+            jErrorMessage.setText("Vinsamlegast veldu sæti til að bóka");
+            return;
+        }
         
-        if (!nameValidated || !ssnValidated || !passwordValidated) return;
-        if (selectedSeats.size() < 1) return;
-        
-        User newUser = new User(jSSN.getText(), jName.getText(), new String(jPassword.getPassword()));
         Bookings bookings = new Bookings();
         for (Seat s : selectedSeats) {
-            bookings.addBooking(new Booking(newUser.getSsn(), s));
+            bookings.addBooking(new Booking(loggedUser.getSsn(), s));
         }
         
         if (bookings.bookSeats() == 0){
@@ -327,44 +293,10 @@ public class BookingsView extends javax.swing.JPanel {
             }
         }
     
-        
+        parent.setMyBookings(bookings);
         parent.loadFlightInfoView(this.flight);
     }//GEN-LAST:event_bookSeats
 
-    /**
-     * Skoðar hvort nafn sé gilt.
-     * @return 
-     */
-    private boolean validateName() {
-        boolean validated = jName.getText().length() > 2;
-        if(!validated) jName.setBackground(new Color(1, 0, 0, 0.2f));
-        else jName.setBackground(new Color(255, 255, 255));
-        return validated; 
-    }
-    
-     /**
-     * Skoðar hvort Password sé gilt.
-     * @return 
-     */
-    private boolean validatePassword() {
-        boolean validated = jPassword.getPassword().length > 5;
-        if (!validated) jPassword.setBackground(new Color(1, 0, 0, 0.2f));
-        else jPassword.setBackground(new Color(255, 255, 255));
-        return validated;
-    } 
-    
-    
-    /**
-     * Skoðar hvort SSN sé gilt.
-     * @return 
-     */
-    private boolean validateSSN() {
-        String regex = "[0-9]{6}-[0-9]{4}";
-        boolean matches = jSSN.getText().matches(regex);
-        if(!matches) jSSN.setBackground(new Color(1, 0, 0, 0.2f));
-        else jSSN.setBackground(new Color(255, 255, 255));
-        return matches;
-    }
     
     /**
      * Calculates price of selected seats;
@@ -378,6 +310,7 @@ public class BookingsView extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBackToSearchView;
     private javax.swing.JButton jBookSeats;
+    private javax.swing.JLabel jErrorMessage;
     private javax.swing.JLabel jFlightArrivalTime;
     private javax.swing.JLabel jFlightArrivalTimeLabel;
     private javax.swing.JLabel jFlightDate;
@@ -385,14 +318,8 @@ public class BookingsView extends javax.swing.JPanel {
     private javax.swing.JLabel jFlightTime;
     private javax.swing.JLabel jFlightTimeLabel;
     private javax.swing.JLabel jHeader;
-    private javax.swing.JTextField jName;
-    private javax.swing.JLabel jNameLabel;
     private javax.swing.JLabel jOriginAndDestination;
-    private javax.swing.JPasswordField jPassword;
     private javax.swing.JLabel jPrice;
-    private javax.swing.JTextField jSSN;
-    private javax.swing.JLabel jSSNLabel;
     private javax.swing.JPanel jSeatContainer;
-    private javax.swing.JLabel passwordLabel;
     // End of variables declaration//GEN-END:variables
 }

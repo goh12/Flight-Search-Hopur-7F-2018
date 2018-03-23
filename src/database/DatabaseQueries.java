@@ -171,16 +171,17 @@ public class DatabaseQueries {
      * @param destination
      * @param dateFirst
      * @param dateLast 
+     * @return  
      */
     public static ArrayList<Flight> getFlightsToFromBetweenDates(
             String origin, String destination, Date dateFirst, Date dateLast) {
         
         ArrayList<Flight> flights = null;
         try {
-            flights = new ArrayList<Flight>();
+            flights = new ArrayList<>();
             Airport aOrigin = getAirportByName(origin);
             Airport aDestination = getAirportByName(destination);
-             
+            
             String q = 
                     "SELECT id, flno, dateof, timeof, origin, destination, traveltime from flights WHERE "
                     + "origin = ? AND destination = ? AND dateof >= ? AND dateof <= ? "
@@ -357,6 +358,37 @@ public class DatabaseQueries {
         }
         
         return null;
+    }
+    
+     /*
+     * Finnur bókunarnúmer út frá kennitlolu og flightId.
+     * þurfum þetta ef notaður er bókunarsmiður með id ekki sem viðfang
+     * @param String ssn kennitala
+     * @param int flightid
+     * @return 
+     */
+    public static int getBookingId(String ssn, int flightid) {
+        try {
+            int bookingId = -1;
+            
+            String q = "SELECT id FROM bookings WHERE ssn = ? AND flightid = ?";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            cpst.pst.setString(1, ssn);
+            cpst.pst.setInt(2, flightid);
+            ResultSet rs = cpst.pst.executeQuery();
+            
+            while(rs.next()) {
+                bookingId = rs.getInt(1);
+            }
+            
+            rs.close();
+            cpst.close();
+            return bookingId;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return -1;
     }
     
     
