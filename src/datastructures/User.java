@@ -25,10 +25,6 @@ public class User {
     public User(String ssn, String name, String password){
         this.name = name;
         this.ssn = ssn.replace("-", "");
-        int err = DatabaseQueries.newUser(this.ssn, name, password);
-        if(err == -1) {
-            System.out.println("User already exists in database");
-        }
     }
     
     /**

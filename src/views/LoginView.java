@@ -7,6 +7,8 @@ package views;
 
 import datastructures.User;
 import java.awt.Color;
+import database.DatabaseQueries;
+import datastructures.Flight;
 
 /**
  *
@@ -14,14 +16,22 @@ import java.awt.Color;
  */
 public class LoginView extends javax.swing.JPanel {
     private final Main parent;          //Parent JFrame
-
+    private Flight flight;
+    private String prevOn;
+    private String buttonStatus;
     /**
      * Creates new form loginView
      * @param main
+     * @param flight
      */
-    public LoginView(Main main) {
+    public LoginView(Main main, Flight flight, String prevOn, String buttonStatus) {
         initComponents();
         this.parent = main;
+        this.flight = flight;
+        this.prevOn = prevOn;
+        this.buttonStatus = buttonStatus;
+        jRegister.setText(buttonStatus); // hvort það sé inn- eða nýskráning
+
     }
 
     /**
@@ -36,11 +46,12 @@ public class LoginView extends javax.swing.JPanel {
         jUsernameTextField = new javax.swing.JTextField();
         username = new javax.swing.JLabel();
         password = new javax.swing.JLabel();
-        jLogin = new javax.swing.JButton();
+        jRegister = new javax.swing.JButton();
         jPassword = new javax.swing.JPasswordField();
-        jGoToSearchView = new javax.swing.JButton();
+        jGoToPrevPanel = new javax.swing.JButton();
         kennitala = new javax.swing.JLabel();
         jKennitalaTextField = new javax.swing.JTextField();
+        jErrorMessage = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -57,21 +68,21 @@ public class LoginView extends javax.swing.JPanel {
         password.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         password.setText("Lykilorð");
 
-        jLogin.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
-        jLogin.setText("Nýskráning");
-        jLogin.addActionListener(new java.awt.event.ActionListener() {
+        jRegister.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        jRegister.setText("Nýskráning");
+        jRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jLoginActionPerformed(evt);
+                jRegisterActionPerformed(evt);
             }
         });
 
         jPassword.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
 
-        jGoToSearchView.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
-        jGoToSearchView.setText("<-");
-        jGoToSearchView.addActionListener(new java.awt.event.ActionListener() {
+        jGoToPrevPanel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        jGoToPrevPanel.setText("<-");
+        jGoToPrevPanel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jGoToSearchViewActionPerformed(evt);
+                jGoToPrevPanelActionPerformed(evt);
             }
         });
 
@@ -79,11 +90,8 @@ public class LoginView extends javax.swing.JPanel {
         kennitala.setText("Kennitala");
 
         jKennitalaTextField.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
-        jKennitalaTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jKennitalaTextFieldActionPerformed(evt);
-            }
-        });
+
+        jErrorMessage.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -91,33 +99,37 @@ public class LoginView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jGoToPrevPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(138, 138, 138)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jRegister, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(username)
+                                        .addComponent(kennitala))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jKennitalaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(162, 162, 162)
+                            .addComponent(password)
+                            .addGap(18, 18, 18)
+                            .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLogin)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(password)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jGoToSearchView, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(username)
-                            .addComponent(kennitala))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jKennitalaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(120, Short.MAX_VALUE))
+                        .addGap(138, 138, 138)
+                        .addComponent(jErrorMessage)))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jGoToSearchView, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jGoToPrevPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(kennitala)
@@ -131,8 +143,10 @@ public class LoginView extends javax.swing.JPanel {
                     .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(password))
                 .addGap(18, 18, 18)
-                .addComponent(jLogin)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addComponent(jRegister)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(jErrorMessage)
+                .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -140,7 +154,7 @@ public class LoginView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jUsernameTextFieldActionPerformed
 
-    private void jLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoginActionPerformed
+    private void jRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegisterActionPerformed
         boolean nameValidated = validateName();
         boolean ssnValidated = validateSSN();
         boolean passwordValidated = validatePassword();
@@ -148,23 +162,47 @@ public class LoginView extends javax.swing.JPanel {
         if (!nameValidated || !ssnValidated || !passwordValidated) return;        
         
         String usernameInput = jUsernameTextField.getText();
-        char[] passwordInput = jPassword.getPassword();
-        String ssnInput = jKennitalaTextField.getText();
-        
-        User newUser = new User(ssnInput, usernameInput, new String(passwordInput));
-        System.out.println(usernameInput);
-        System.out.println(passwordInput);
-        System.out.println(ssnInput);
-    }//GEN-LAST:event_jLoginActionPerformed
+        String passwordInput = new String(jPassword.getPassword());
+        String ssnInput = jKennitalaTextField.getText().replace("-", "");
 
-    private void jGoToSearchViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGoToSearchViewActionPerformed
-        this.parent.loadSearchView();
-    }//GEN-LAST:event_jGoToSearchViewActionPerformed
+        if (buttonStatus == "Innskráning") {
+            User loggedIn = DatabaseQueries.getUser(ssnInput, usernameInput, passwordInput);
+            this.parent.setLoggedInUser(loggedIn);
+            goToPrevPanel();
+        }
+        if (buttonStatus == "Nýskráning") {
+            int err = DatabaseQueries.newUser(ssnInput, usernameInput, passwordInput); 
+            if(err == -1) {
+                jErrorMessage.setText("Þessi kennitala er nú þegar í notkun");
+                return;
+            } else {
+                jErrorMessage.setText("");
+                User newUser = new User(ssnInput, usernameInput, passwordInput);
+                this.parent.setLoggedInUser(newUser);
+                System.out.println("You are logged in!");
+                goToPrevPanel();
+            }  
+            
+        }
+    }//GEN-LAST:event_jRegisterActionPerformed
 
-    private void jKennitalaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jKennitalaTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jKennitalaTextFieldActionPerformed
+    private void jGoToPrevPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGoToPrevPanelActionPerformed
+        goToPrevPanel();
+    }//GEN-LAST:event_jGoToPrevPanelActionPerformed
 
+    
+    /**
+     * 
+     */
+    private void goToPrevPanel() {
+        if (prevOn == "booking") {
+            this.parent.loadBookingsView(flight);
+        } else if (prevOn == "info") {
+            this.parent.loadFlightInfoView(flight);
+        } else {
+            this.parent.loadSearchView();
+        }        
+    }
     /**
      * Skoðar hvort nafn sé gilt.
      * @return 
@@ -200,10 +238,11 @@ public class LoginView extends javax.swing.JPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jGoToSearchView;
+    private javax.swing.JLabel jErrorMessage;
+    private javax.swing.JButton jGoToPrevPanel;
     private javax.swing.JTextField jKennitalaTextField;
-    private javax.swing.JButton jLogin;
     private javax.swing.JPasswordField jPassword;
+    private javax.swing.JButton jRegister;
     private javax.swing.JTextField jUsernameTextField;
     private javax.swing.JLabel kennitala;
     private javax.swing.JLabel password;

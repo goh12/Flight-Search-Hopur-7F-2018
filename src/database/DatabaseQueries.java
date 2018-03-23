@@ -397,15 +397,17 @@ public class DatabaseQueries {
      * @param ssn kennitala notanda
      * @return 
      */
-    public static User getUser(String ssn) {
+    public static User getUser(String ssn, String username, String password) {
         try {
             User user = null;
             
-            String q = "SELECT (ssn, name) FROM users WHERE ssn = ?";
+            String q = "SELECT * FROM users WHERE ssn = ? AND name = ? AND password = ?";
             ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
             cpst.pst.setString(1, ssn);
+            cpst.pst.setString(2, username);
+            cpst.pst.setString(3, password);
             ResultSet rs = cpst.pst.executeQuery();
-            
+         
             if(rs.next()) {
                 user = new User(
                         rs.getString(1),
@@ -416,12 +418,13 @@ public class DatabaseQueries {
             
             rs.close();
             cpst.close();
+
             return user;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
         return null;
+        
     }
     
     /**

@@ -6,6 +6,7 @@
 package views;
 
 import datastructures.Flight;
+import datastructures.User;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +20,16 @@ public class Main extends javax.swing.JFrame {
     private FlightInfoView flightInfoView;
     private BookingsView bookingsView;
     private LoginView loginView;
+    private Flight currentFlight;
+    private User loggedInUser;
+
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(User user) {
+        loggedInUser = user;
+    }
     
     /**
      * Creates new form Main
@@ -37,13 +48,65 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jLogin = new javax.swing.JMenu();
+        jInnskraning = new javax.swing.JMenuItem();
+        jRegister = new javax.swing.JMenuItem();
+        jMyBookings = new javax.swing.JMenuItem();
+        jExit = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flight Search");
         setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
+        jLogin.setText("Menu");
+
+        jInnskraning.setText("Innskráning");
+        jInnskraning.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jInnskraningActionPerformed(evt);
+            }
+        });
+        jLogin.add(jInnskraning);
+
+        jRegister.setText("Nýskráning");
+        jRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRegisterActionPerformed(evt);
+            }
+        });
+        jLogin.add(jRegister);
+
+        jMyBookings.setText("Mínar bókanir");
+        jLogin.add(jMyBookings);
+
+        jExit.setText("Hætta");
+        jExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jExitActionPerformed(evt);
+            }
+        });
+        jLogin.add(jExit);
+
+        jMenuBar1.add(jLogin);
+
+        setJMenuBar(jMenuBar1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jExitActionPerformed
+
+    private void jInnskraningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jInnskraningActionPerformed
+        loadLoginView("Innskráning");
+    }//GEN-LAST:event_jInnskraningActionPerformed
+
+    private void jRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegisterActionPerformed
+        loadLoginView("Nýskráning");       
+    }//GEN-LAST:event_jRegisterActionPerformed
     
     /**
      * Loads a SearchView
@@ -67,6 +130,10 @@ public class Main extends javax.swing.JFrame {
      * @param flight 
      */
     public void loadFlightInfoView(Flight flight) {
+        if(this.loginView != null) {
+            this.remove(this.loginView);
+            this.loginView = null;
+        }
         if (this.bookingsView != null) {
             this.remove(this.bookingsView);
             this.bookingsView = null;
@@ -75,6 +142,7 @@ public class Main extends javax.swing.JFrame {
         }
         
         if(flight != null) {
+            currentFlight = flight;
             this.flightInfoView = new FlightInfoView(this, flight);
         }
         this.add(this.flightInfoView, BorderLayout.CENTER);
@@ -87,7 +155,15 @@ public class Main extends javax.swing.JFrame {
      * @param flight 
      */
     public void loadBookingsView(Flight flight) {
-        this.remove(this.flightInfoView);
+        currentFlight = flight;
+        if(this.flightInfoView != null) {
+            this.remove(this.flightInfoView);
+        }
+        
+        if(this.loginView != null) {
+            this.remove(this.loginView);
+            this.loginView = null;
+        }
         this.bookingsView = new BookingsView(this, flight);
         this.add(this.bookingsView, BorderLayout.CENTER);
         this.pack();
@@ -97,12 +173,31 @@ public class Main extends javax.swing.JFrame {
     /**
      * 
      */
-     public void loadLoginView() {
-         this.remove(searchView);
-         this.loginView = new LoginView(this);
-         this.add(this.loginView, BorderLayout.CENTER);
-         this.pack();
-         this.repaint();
+     public void loadLoginView(String buttonStatus) {
+        
+         String prevOn = null;
+        
+         if (this.loginView != null) {
+             return;
+         }
+        if (this.bookingsView != null) {
+            this.remove(this.bookingsView);
+            this.bookingsView = null;
+            prevOn = "booking";
+        } else if (this.flightInfoView != null) {
+            this.remove(this.flightInfoView);
+            this.flightInfoView = null;
+            prevOn = "info";
+        } else {
+            this.remove(searchView);
+            this.currentFlight = null;
+            prevOn = "search";
+        } 
+        
+        this.loginView = new LoginView(this, currentFlight, prevOn, buttonStatus);
+        this.add(this.loginView, BorderLayout.CENTER);
+        this.pack();
+        this.repaint();
      }
     /**
      * @param args the command line arguments
@@ -144,5 +239,11 @@ public class Main extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jExit;
+    private javax.swing.JMenuItem jInnskraning;
+    private javax.swing.JMenu jLogin;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMyBookings;
+    private javax.swing.JMenuItem jRegister;
     // End of variables declaration//GEN-END:variables
 }
