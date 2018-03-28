@@ -9,7 +9,7 @@ import containers.Bookings;
 import datastructures.Flight;
 import datastructures.User;
 import java.awt.BorderLayout;
-
+import database.DatabaseQueries;
 /**
  *
  * @author greta
@@ -30,6 +30,7 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         this.searchView = new SearchView(this);
         this.myBookingsView = new MyBookingsView(this, null, "search");
+        DatabaseQueries.setEncoding("UTF8");
         loggedInUser = null;
     }
 
@@ -211,23 +212,24 @@ public class Main extends javax.swing.JFrame {
          String prevOn = null;
         
          if (this.loginView != null) {
-             return;
-         }
-         
-         if (this.myBookingsView != null){
+             String status = this.loginView.getButtonStatus();
+             if(status.equals(buttonStatus)){
+                 return;
+             }else{
+                 this.remove(this.loginView);
+             }
+        } if (this.myBookingsView != null){
             this.remove(this.myBookingsView);
             prevOn = "myBookings";
-        } 
-        if (this.bookingsView != null) {
+        } if (this.bookingsView != null) {
             this.remove(this.bookingsView);
             this.bookingsView = null;
             prevOn = "booking";
-        }
-        if (this.flightInfoView != null) {
+        } if (this.flightInfoView != null) {
             this.remove(this.flightInfoView);
             this.flightInfoView = null;
             prevOn = "info";
-        } else {
+        } else{
             this.remove(searchView);
             this.currentFlight = null;
             prevOn = "search";

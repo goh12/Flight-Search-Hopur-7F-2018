@@ -81,7 +81,7 @@
                   <Component id="jPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="password" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="jRegister" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="46" max="32767" attributes="0"/>
               <Component id="jErrorMessage" min="-2" max="-2" attributes="0"/>
@@ -96,6 +96,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Courier New" size="14" style="0"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Vinsamlegast skr&#xe1;&#xf0;u alv&#xf6;ru nafn"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jUsernameTextFieldActionPerformed"/>
@@ -133,6 +134,8 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Courier New" size="14" style="0"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Lengra en 5 stafir"/>
+        <Property name="name" type="java.lang.String" value="" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jGoToPrevPanel">
@@ -159,6 +162,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Courier New" size="14" style="0"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Form: 123456-1234"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jErrorMessage">

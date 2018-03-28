@@ -59,6 +59,7 @@ public class LoginView extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         jUsernameTextField.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+        jUsernameTextField.setToolTipText("Vinsamlegast skráðu alvöru nafn");
         jUsernameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jUsernameTextFieldActionPerformed(evt);
@@ -80,6 +81,8 @@ public class LoginView extends javax.swing.JPanel {
         });
 
         jPassword.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+        jPassword.setToolTipText("Lengra en 5 stafir");
+        jPassword.setName(""); // NOI18N
 
         jGoToPrevPanel.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         jGoToPrevPanel.setText("<-");
@@ -93,6 +96,7 @@ public class LoginView extends javax.swing.JPanel {
         kennitala.setText("Kennitala");
 
         jKennitalaTextField.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+        jKennitalaTextField.setToolTipText("Form: 123456-1234");
 
         jErrorMessage.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
 
@@ -252,6 +256,10 @@ public class LoginView extends javax.swing.JPanel {
         if(!matches) jKennitalaTextField.setBackground(new Color(1, 0, 0, 0.2f));
         else jKennitalaTextField.setBackground(new Color(255, 255, 255));
         return matches;
+    }
+    
+    public String getButtonStatus(){
+        return buttonStatus;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
