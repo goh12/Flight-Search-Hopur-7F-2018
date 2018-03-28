@@ -55,21 +55,6 @@ public class FlightsTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getFlightsToFromOnDate method, of class Flights.
-     */
-    @Test
-    public void testGetFlightsToFromOnDate() {
-        System.out.println("getFlightsToFromOnDate");
-        String origin = "";
-        String destination = "";
-        Date date = null;
-        Flights expResult = null;
-        Flights result = Flights.getFlightsToFromOnDate(origin, destination, date);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of getFlightsToFromBetweenDates method, of class Flights.
@@ -213,5 +198,53 @@ public class FlightsTest {
         if(first.equals(sec) && first.getTraveltime()!= min)
             fail("Not sorted.");
     }
+
+    /**
+     * Test of getFlightsBetweenDates method, of class Flights.
+     */
+    @Test
+    public void testGetFlightsBetweenDates() {
+        System.out.println("getFlightsBetweenDates");
+        Date date1 = null;
+        Date date2 = null;
+        Flights expResult = null;
+        Flights result = Flights.getFlightsBetweenDates(date1, date2);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getFlightsToBetweenDates method, of class Flights.
+     */
+    @Test
+    public void testGetFlightsToBetweenDates() {
+        System.out.println("getFlightsToBetweenDates");
+        String destination = "";
+        Date date1 = null;
+        Date date2 = null;
+        Flights expResult = null;
+        Flights result = Flights.getFlightsToBetweenDates(destination, date1, date2);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getFlightsFromBetweenDates method, of class Flights.
+     */
+    @Test
+    public void testGetFlightsFromBetweenDates() {
+        System.out.println("getFlightsFromBetweenDates");
+        String origin = "";
+        Date date1 = null;
+        Date date2 = null;
+        Flights expResult = null;
+        Flights result = Flights.getFlightsFromBetweenDates(origin, date1, date2);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
     
 }

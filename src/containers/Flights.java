@@ -113,6 +113,21 @@ public class Flights {
     }
     
     /**
+     * Nær í öll flug frá milli tveggja flugvalla.
+     * @param origin Fararstaður
+     * @param destination Komustaður
+     * @return 
+     */
+    public static Flights getAllFlightsToFrom(String origin, String destination) 
+    {
+        ArrayList<Flight> flights = DatabaseQueries.getFlightsToFrom(
+                origin, destination
+        );
+        if (flights == null ) return null;
+        return new Flights(flights);
+    }    
+    
+    /**
      * Raðar flugum eftir verði
      */
     public void sortByPrice() {

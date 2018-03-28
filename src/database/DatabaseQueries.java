@@ -270,6 +270,39 @@ public class DatabaseQueries {
     }
     
     
+        /**
+     * Finnur öll flug frá flugvelli origin til flugvallar destination.
+     * @param originName
+     * @param destinationName
+     * @return 
+     */
+    public static ArrayList<Flight> getFlightsToFrom(String originName, String destinationName) {
+        ArrayList<Flight> flights = null;
+        try {            
+            Airport aOrigin = getAirportByName(originName);
+            Airport aDestination = getAirportByName(destinationName);
+            
+            String q = "SELECT id, flno, dateof, timeof, origin, destination, traveltime FROM flights WHERE origin = ? AND destination = ? "
+                    + "ORDER BY dateof, timeof";
+            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
+            
+            cpst.pst.setString(1, aOrigin.getName());
+            cpst.pst.setString(2, aDestination.getName());
+            
+            ResultSet rs =  cpst.pst.executeQuery();
+            flights = Utilities.listFlights(rs);
+            
+            rs.close();
+            cpst.close();      
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            return null;
+        }
+        
+        return flights;
+    }
+    
     /**
      * Finnur Flight í gagnagrunni með id og skilar sem flight hlut.
      * @param id id Flugs í gagnagrunni
@@ -324,7 +357,7 @@ public class DatabaseQueries {
      */
     public static ArrayList<Seat> getSeatsByFlightId(int id) {
         try {
-            ArrayList<Seat> seats = new ArrayList<Seat>();
+            ArrayList<Seat> seats = new ArrayList<>();
             String q = "SELECT flightid, seatid, booked FROM seats "
                     + "WHERE flightid = ?";
             
@@ -488,6 +521,8 @@ public class DatabaseQueries {
     /**
      * Sækir notanda úr gagnagrunni með sömu kennitölu
      * @param ssn kennitala notanda
+     * @param username
+     * @param password
      * @return 
      */
     public static User getUser(String ssn, String username, String password) {
