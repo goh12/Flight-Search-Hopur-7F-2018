@@ -5,9 +5,12 @@ package containers;
 
 import datastructures.Flight;
 import database.DatabaseQueries;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -235,15 +238,20 @@ public class FlightsTest {
      */
     @Test
     public void testGetFlightsFromBetweenDates() {
-        System.out.println("getFlightsFromBetweenDates");
-        String origin = "";
-        Date date1 = null;
-        Date date2 = null;
-        Flights expResult = null;
-        Flights result = Flights.getFlightsFromBetweenDates(origin, date1, date2);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.println("getFlightsFromBetweenDates");
+            String origin = "Reykjavík";
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            Date date1 = df.parse("01//01/2018");
+            Date date2 = df.parse("02/02/2018");
+            
+            
+            ArrayList<Flight> result = Flights.getFlightsFromBetweenDates(origin, date1, date2).getFlights();
+            ArrayList<Flight> expResult = DatabaseQueries.getFlightsFromBetweenDates(origin, date1, date2);
+            assertEquals(expResult, result);
+        } catch (ParseException ex) {
+            Logger.getLogger(FlightsTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     
