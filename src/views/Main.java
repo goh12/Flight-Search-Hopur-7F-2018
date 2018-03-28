@@ -30,7 +30,6 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         this.searchView = new SearchView(this);
         this.myBookingsView = new MyBookingsView(this, null, "search");
-        DatabaseQueries.setEncoding("UTF8");
         loggedInUser = null;
     }
 
