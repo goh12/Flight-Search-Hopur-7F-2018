@@ -593,16 +593,4 @@ public class DatabaseQueries {
         
     }
     
-    public static void setEncoding(String encoding){
-        try{
-            String q = "SET client_encoding = ?";
-            ConnectionPreparedStatement cpst = DatabaseController.getConnectionPreparedStatement(q);
-
-            cpst.pst.setString(1, encoding);
-            ResultSet rs =  cpst.pst.executeQuery();
-            cpst.close();
-        }catch(SQLException e){
-            System.out.println(e);
-        }
-    }
 }
