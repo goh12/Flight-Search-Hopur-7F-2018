@@ -25,39 +25,7 @@ public class Flights {
     private Flights(ArrayList<Flight> flights) {
         this.flights = flights;
     }
-    
-    /**
-     * Nær í öll flug frá milli tveggja flugvalla.
-     * @param origin Fararstaður
-     * @param destination Komustaður
-     * @return 
-     */
-    public static Flights getAllFlightsToFrom(String origin, String destination) 
-    {
-        ArrayList<Flight> flights = DatabaseQueries.getFlightsToFrom(
-                origin, destination
-        );
-        if (flights == null ) return null;
-        return new Flights(flights);
-    }
-    
-    /**
-     * Nær í öll flug frá origin, til destination á dagsetningu date
-     * @param origin Fararstaður
-     * @param destination Komustaður
-     * @param date Dagsetning
-     * @return 
-     */
-    public static Flights getFlightsToFromOnDate(
-            String origin, String destination, Date date) 
-    {
-        ArrayList<Flight> flights = DatabaseQueries.getFlightsToFromOnDate(
-            origin, destination, date
-        );
-        if (flights == null ) return null;
-        return new Flights(flights);
-    }
-    
+
     /**
      * Nær í öll flug á tímabili milli date1 og date2 (inclusive) frá
      * origin til destination
@@ -73,6 +41,54 @@ public class Flights {
         ArrayList<Flight> flights = DatabaseQueries.getFlightsToFromBetweenDates(
             origin, destination, date1, date2
         );
+        if (flights == null ) return null;
+        return new Flights(flights);
+    }
+
+    /**
+     * Nær í öll flug á tímabili milli date1 og date2 
+     * @param origin Fararstaður
+     * @param destination komustaður
+     * @param date1 dagsetning 1
+     * @param date2 dagsetning 2
+     * @return 
+     */
+    public static Flights getFlightsBetweenDates(Date date1, Date date2) 
+    {
+        ArrayList<Flight> flights = DatabaseQueries.getFlightsBetweenDates(date2, date2);
+        if (flights == null ) return null;
+        return new Flights(flights);
+    }
+
+    /**
+     * Nær í öll flug á tímabili milli date1 og date2 (inclusive) til destination
+     * @param origin Fararstaður
+     * @param destination komustaður
+     * @param date1 dagsetning 1
+     * @param date2 dagsetning 2
+     * @return 
+     */
+    public static Flights getFlightsToBetweenDates(
+            String destination, Date date1, Date date2) 
+    {
+        ArrayList<Flight> flights = DatabaseQueries.getFlightsToBetweenDates(destination, date2, date2);
+        if (flights == null ) return null;
+        return new Flights(flights);
+    }    
+    
+    /**
+     * Nær í öll flug á tímabili milli date1 og date2 (inclusive) frá
+     * origin 
+     * @param origin Fararstaður
+     * @param destination komustaður
+     * @param date1 dagsetning 1
+     * @param date2 dagsetning 2
+     * @return 
+     */
+    public static Flights getFlightsFromBetweenDates(
+            String origin, Date date1, Date date2) 
+    {
+        ArrayList<Flight> flights = DatabaseQueries.getFlightsFromBetweenDates(origin, date2, date2);
         if (flights == null ) return null;
         return new Flights(flights);
     }

@@ -25,11 +25,6 @@ import utils.Utilities;
  */
 public class TestRun {
     public static void main(String[] args) throws ParseException {
-            Flights flights = Flights.getAllFlightsToFrom("Reykjavík", "Akureyri");
-            
-            for(Flight f : flights.getFlights()) {
-                System.out.println(f);
-            }
             
             System.out.println();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -42,24 +42,24 @@ public class Utilities {
     
     
         /**
-     * Tekur inn ResultSet af flugum, og 2 Airport hluti (origin og destination)
+     * Tekur inn ResultSet af flugum
      * og býr til ArrayList af Flight hlutum.
      * @param rs
-     * @param aOrigin
-     * @param aDestination
      * @return  Öllum flugum úr ResultSet rs
      * @throws SQLException 
      */
     public static ArrayList<Flight> listFlights
-        (ResultSet rs, Airport aOrigin, Airport aDestination) throws SQLException 
+        (ResultSet rs) throws SQLException 
     {
-        ArrayList<Flight> flights = new ArrayList<Flight>();
+        ArrayList<Flight> flights = new ArrayList<>();
         
         while (rs.next()) {
             try {
                 int flid = rs.getInt(1);
                 Date time = Utilities.getDate(rs.getString(3), rs.getString(4));
                 ArrayList<Seat> seats = getSeatsByFlightId(flid);
+                Airport aOrigin = new Airport(rs.getString(5));
+                Airport aDestination = new Airport(rs.getString(6));
                 flights.add(new Flight(
                         flid,
                         rs.getString(2),
