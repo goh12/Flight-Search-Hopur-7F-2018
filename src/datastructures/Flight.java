@@ -102,6 +102,7 @@ public class Flight {
     }
     
     
+    @Override
     public String toString() {
         return origin.toString() + " til " + destination.toString() + ". " +
                 date.toString();

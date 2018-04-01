@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
  * @author polli
  */
 public class FlightsTest {
-    
+    Date date1, date2;
     public FlightsTest() {
     }
     
@@ -51,11 +51,14 @@ public class FlightsTest {
         System.out.println("getAllFlightsToFrom");
         String origin = "";
         String destination = "";
-        Flights expResult = null;
-        Flights result = Flights.getAllFlightsToFrom(origin, destination);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFrom(origin, destination);
+        ArrayList<Flight> result = Flights.getAllFlightsToFrom(origin, destination).getFlights();
+        for(int i = 0; i < result.size(); i++){
+                Flight exp = expResult.get(i);
+                Flight r = result.get(i);
+                if(exp.getId()!=r.getId())
+                    fail("Flug"+exp+"og"+r+"eru ekki eins");
+        }
     }
 
 
@@ -69,17 +72,20 @@ public class FlightsTest {
         String destination = "Akureyri";
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try{
-            Date date1 = df.parse("01/01/2018");
-            Date date2 = df.parse("31/12/2018");
+            date1 = df.parse("01/01/2018");
+            date2 = df.parse("31/12/2018");
             ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFromBetweenDates(origin, destination, date1, date2);
             ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
-            assertEquals(expResult, result);
+            for(int i = 0; i < result.size(); i++){
+                Flight exp = expResult.get(i);
+                Flight r = result.get(i);
+                if(exp.getId()!=r.getId())
+                    fail("Flug"+exp+"og"+r+"eru ekki eins");
+            }
+            //assertEquals(expResult, result);
         }catch(Exception e){
             e.printStackTrace();
         }
-        
-        
-        
     }
 
     /**
@@ -128,7 +134,7 @@ public class FlightsTest {
         Flights instance = Flights.getAllFlightsToFrom("Reyk","");
         Flight first = instance.getFlights().get(0);
         instance.sortFlightsByDate(asc);
-        // Notandi ábyrgist að talan sé nógu há.
+        // Notandi ábyrgist að talan sé nógu lág.
         long max = 0;
         for(Flight f : instance.getFlights()){
             if(max < f.getDate().getTime() )
@@ -213,8 +219,6 @@ public class FlightsTest {
         Flights expResult = null;
         Flights result = Flights.getFlightsBetweenDates(date1, date2);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -224,13 +228,28 @@ public class FlightsTest {
     public void testGetFlightsToBetweenDates() {
         System.out.println("getFlightsToBetweenDates");
         String destination = "";
+        ArrayList<Flight> expResult = DatabaseQueries.getFlightsToBetweenDates(destination, date1, date1);
+        ArrayList<Flight> result = Flights.getFlightsToBetweenDates(destination, date1, date2).getFlights();
+        for(int i = 0; i < result.size(); i++){
+                Flight exp = expResult.get(i);
+                Flight r = result.get(i);
+                if(exp.getId()!=r.getId())
+                    fail("Flug"+exp+"og"+r+"eru ekki eins");
+        }
+    }
+    
+    /**
+     * Test of getFlightsToBetweenDates method, of class Flights.
+     */
+    @Test
+    public void test1GetFlightsToBetweenDates() {
+        System.out.println("getFlightsToBetweenDates");
+        String destination = "";
         Date date1 = null;
         Date date2 = null;
         Flights expResult = null;
         Flights result = Flights.getFlightsToBetweenDates(destination, date1, date2);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -242,8 +261,8 @@ public class FlightsTest {
             System.out.println("getFlightsFromBetweenDates");
             String origin = "Reykjavík";
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            Date date1 = df.parse("01//01/2018");
-            Date date2 = df.parse("02/02/2018");
+            date1 = df.parse("01/01/2018");
+            date2 = df.parse("02/02/2018");
             
             
             ArrayList<Flight> result = Flights.getFlightsFromBetweenDates(origin, date1, date2).getFlights();
