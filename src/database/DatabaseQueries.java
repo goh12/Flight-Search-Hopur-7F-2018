@@ -574,7 +574,6 @@ public class DatabaseQueries {
             return executeUpdate;
         } catch (SQLException e) {
             if (e.getSQLState().equals("23505")) {
-                System.out.println("Seats already booked");
                 return -1;
             } else {
                 e.printStackTrace();
