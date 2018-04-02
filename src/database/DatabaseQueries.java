@@ -73,7 +73,7 @@ public class DatabaseQueries {
     public static ArrayList<Airport> getAirports() {
         ArrayList<Airport> airports = null;
         try {
-            airports = new ArrayList<Airport>();
+            airports = new ArrayList<>();
             String q = "SELECT airportname FROM airports";
             ConnectionStatement cst = new ConnectionStatement();
             
@@ -97,8 +97,6 @@ public class DatabaseQueries {
     /**
      * Gefur flug milli gefnra dagsetninga
      * dateFirst og dateLast
-     * @param origin
-     * @param destination
      * @param dateFirst
      * @param dateLast 
      * @return  
@@ -134,7 +132,6 @@ public class DatabaseQueries {
      /**
      * Gefur flug til destination milli gefnra dagsetninga
      * dateFirst og dateLast
-     * @param origin
      * @param destination
      * @param dateFirst
      * @param dateLast 
@@ -177,7 +174,6 @@ public class DatabaseQueries {
      * Gefur flug frá origin milli gefnra dagsetninga
      * dateFirst og dateLast
      * @param origin
-     * @param destination
      * @param dateFirst
      * @param dateLast 
      * @return  

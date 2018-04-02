@@ -44,51 +44,6 @@ public class Flights {
         if (flights == null ) return null;
         return new Flights(flights);
     }
-
-    /**
-     * Nær í öll flug á tímabili milli date1 og date2 
-     * @param origin Fararstaður
-     * @param destination komustaður
-     * @param date1 dagsetning 1
-     * @param date2 dagsetning 2
-     * @return 
-     */
-    public static Flights getFlightsBetweenDates(Date date1, Date date2) 
-    {
-        ArrayList<Flight> flights = DatabaseQueries.getFlightsBetweenDates(date2, date2);
-        if (flights == null ) return null;
-        return new Flights(flights);
-    }
-
-    /**
-     * Nær í öll flug á tímabili milli date1 og date2 (inclusive) til destination
-     * @param origin Fararstaður
-     * @param destination komustaður
-     * @param date1 dagsetning 1
-     * @param date2 dagsetning 2
-     * @return 
-     */
-    public static Flights getFlightsToBetweenDates(String destination, Date date1, Date date2) 
-    {
-        ArrayList<Flight> flights = DatabaseQueries.getFlightsToBetweenDates(destination, date2, date2);
-        if (flights == null ) return null;
-        return new Flights(flights);
-    }    
-    
-    /**
-     * Nær í öll flug á tímabili milli date1 og date2 (inclusive) frá
-     * origin 
-     * @param origin Fararstaður
-     * @param date1 dagsetning 1
-     * @param date2 dagsetning 2
-     * @return 
-     */
-    public static Flights getFlightsFromBetweenDates(String origin, Date date1, Date date2) 
-    {
-        ArrayList<Flight> flights = DatabaseQueries.getFlightsFromBetweenDates(origin, date2, date2);
-        if (flights == null ) return null;
-        return new Flights(flights);
-    }
     
     /**
      * Skilar listanum yfir flugin sem Flights hlutur inniheldur.
