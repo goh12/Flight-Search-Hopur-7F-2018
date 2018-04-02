@@ -28,25 +28,12 @@ public class FlightsTest {
     public FlightsTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-        
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
-    public void setUp() {
+    public void setUp() throws ParseException {
         instance = Flights.getAllFlightsToFrom("Reyk","");
-        try {
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            date1 = df.parse("01/01/2018");
-            date2 = df.parse("31/12/2018");
-        } catch(ParseException e){
-            e.printStackTrace();
-        }
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        date1 = df.parse("01/01/2018");
+        date2 = df.parse("31/12/2018");
     }
     
     @After
