@@ -24,11 +24,13 @@ import static org.junit.Assert.*;
  */
 public class FlightsTest {
     Date date1, date2;
+    Flights instance;
     public FlightsTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        
     }
     
     @AfterClass
@@ -37,30 +39,22 @@ public class FlightsTest {
     
     @Before
     public void setUp() {
+        instance = Flights.getAllFlightsToFrom("Reyk","");
+        try{
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            date1 = df.parse("01/01/2018");
+            date2 = df.parse("31/12/2018");
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
     }
     
     @After
     public void tearDown() {
+        date1 = null;
+        date2 = null;
+        instance = null;
     }
-
-    /**
-     * Test of getAllFlightsToFrom method, of class Flights.
-     */
-    @Test
-    public void testGetAllFlightsToFrom() {
-        System.out.println("getAllFlightsToFrom");
-        String origin = "";
-        String destination = "";
-        ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFrom(origin, destination);
-        ArrayList<Flight> result = Flights.getAllFlightsToFrom(origin, destination).getFlights();
-        for(int i = 0; i < result.size(); i++){
-                Flight exp = expResult.get(i);
-                Flight r = result.get(i);
-                if(exp.getId()!=r.getId())
-                    fail("Flug"+exp+"og"+r+"eru ekki eins");
-        }
-    }
-
 
     /**
      * Test of getFlightsToFromBetweenDates method, of class Flights.
@@ -70,21 +64,14 @@ public class FlightsTest {
         System.out.println("getFlightsToFromBetweenDates");
         String origin = "Reykjavík";
         String destination = "Akureyri";
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        try{
-            date1 = df.parse("01/01/2018");
-            date2 = df.parse("31/12/2018");
-            ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFromBetweenDates(origin, destination, date1, date2);
-            ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
-            for(int i = 0; i < result.size(); i++){
-                Flight exp = expResult.get(i);
-                Flight r = result.get(i);
-                if(exp.getId()!=r.getId())
-                    fail("Flug"+exp+"og"+r+"eru ekki eins");
-            }
-            //assertEquals(expResult, result);
-        }catch(ParseException e){
-            e.printStackTrace();
+        
+        ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFromBetweenDates(origin, destination, date1, date2);
+        ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
+        for(int i = 0; i < result.size(); i++){
+            Flight exp = expResult.get(i);
+            Flight r = result.get(i);
+            if(exp.getId()!=r.getId())
+                fail("Flug "+exp+" og "+r+" eru ekki eins");
         }
     }
 
@@ -94,11 +81,14 @@ public class FlightsTest {
     @Test
     public void testGetFlights() {
         System.out.println("getFlights");
-        Flights instance = Flights.getAllFlightsToFrom("Reyk","");
-        // Þarf að athuga í gagnagrunn.
-        int expResult = 4;
-        int result = instance.getFlights().size();
-        assertEquals(expResult, result);
+        ArrayList<Flight> result = instance.getFlights();
+        ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFrom("Reyk","");
+        for(int i = 0; i < result.size(); i++){
+                Flight exp = expResult.get(i);
+                Flight r = result.get(i);
+                if(exp.getId()!=r.getId())
+                    fail("Flug "+exp+" og "+r+" eru ekki eins");
+        }
     }
 
     /**
@@ -109,7 +99,6 @@ public class FlightsTest {
     public void test1SortFlightsByDate() {
         System.out.println("sortFlightsByDate");
         boolean asc = true;
-        Flights instance = Flights.getAllFlightsToFrom("Reyk","");
         Flight first = instance.getFlights().get(0);
         instance.sortFlightsByDate(asc);
         // Notandi ábyrgist að talan sé nógu há.
@@ -131,7 +120,6 @@ public class FlightsTest {
     public void test2SortFlightsByDate() {
         System.out.println("sortFlightsByDate");
         boolean asc = false;
-        Flights instance = Flights.getAllFlightsToFrom("Reyk","");
         Flight first = instance.getFlights().get(0);
         instance.sortFlightsByDate(asc);
         // Notandi ábyrgist að talan sé nógu lág.
@@ -151,7 +139,6 @@ public class FlightsTest {
     @Test
     public void testSortByPrice() {
         System.out.println("sortByPrice");
-        Flights instance = Flights.getAllFlightsToFrom("Reyk","");
         Flight first = instance.getFlights().get(0);
         instance.sortByPrice();
         // Notandi ábyrgist að talan sé nógu há.
@@ -173,7 +160,6 @@ public class FlightsTest {
     public void test1SortByLength() {
         System.out.println("sortByLength");
         boolean asc = false;
-        Flights instance = Flights.getAllFlightsToFrom("Reyk","");
         Flight first = instance.getFlights().get(0);
         instance.sortByLength(asc);
         // Notandi ábyrgist að talan sé nógu lág.
@@ -195,7 +181,6 @@ public class FlightsTest {
     public void test2SortByLength() {
         System.out.println("sortByLength");
         boolean asc = true;
-        Flights instance = Flights.getAllFlightsToFrom("Reyk","");
         Flight first = instance.getFlights().get(0);
         instance.sortByLength(asc);
         int min = Integer.MAX_VALUE;
@@ -235,12 +220,14 @@ public class FlightsTest {
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             date1 = df.parse("01/01/2018");
             date2 = df.parse("31/12/2018");
-            Flights instance = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2);
-            int result = instance.getFlights().size();
-            
-            // talið í gagnagrunni
-            int expResult = 23;
-            assertEquals(expResult, result);
+            ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
+            ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFromBetweenDates(origin, destination, date1, date2);
+            for(int i = 0; i < result.size(); i++){
+                Flight exp = expResult.get(i);
+                Flight r = result.get(i);
+                if(exp.getId()!=r.getId())
+                    fail("Flug"+exp+"og"+r+"eru ekki eins");
+            }
         } catch (ParseException ex) {
             Logger.getLogger(FlightsTest.class.getName()).log(Level.SEVERE, null, ex);
         }
