@@ -40,11 +40,11 @@ public class FlightsTest {
     @Before
     public void setUp() {
         instance = Flights.getAllFlightsToFrom("Reyk","");
-        try{
+        try {
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             date1 = df.parse("01/01/2018");
             date2 = df.parse("31/12/2018");
-        }catch(ParseException e){
+        } catch(ParseException e){
             e.printStackTrace();
         }
     }
@@ -213,46 +213,24 @@ public class FlightsTest {
      */
     @Test
     public void testGetFlightsToFromBetweenDates3() {
-        try {
-            System.out.println("getFlightsToBetweenDates");
-            String destination = "Egils";
-            String origin = "";
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            date1 = df.parse("01/01/2018");
-            date2 = df.parse("31/12/2018");
-            ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
-            ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFromBetweenDates(origin, destination, date1, date2);
-            for(int i = 0; i < result.size(); i++){
-                Flight exp = expResult.get(i);
-                Flight r = result.get(i);
-                if(exp.getId()!=r.getId())
-                    fail("Flug"+exp+"og"+r+"eru ekki eins");
-            }
-        } catch (ParseException ex) {
-            Logger.getLogger(FlightsTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    /**
-     * Test of getFlightsToBetweenDates method, of class Flights.
-     */
-    @Test
-    public void testGetFlightsToFromBetweenDates4() {
         System.out.println("getFlightsToBetweenDates");
-        String destination = "";
+        String destination = "Egils";
         String origin = "";
-        date1 = null;
-        date2 = null;
-        Flights expResult = null;
-        Flights result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2);
-        assertEquals(expResult, result);
+ 
+        ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
+        ArrayList<Flight> expResult = DatabaseQueries.getFlightsToFromBetweenDates(origin, destination, date1, date2);
+        for(int i = 0; i < result.size(); i++){
+            Flight exp = expResult.get(i);
+            Flight r = result.get(i);
+            if(exp.getId()!=r.getId())
+                fail("Flug"+exp+"og"+r+"eru ekki eins");
+            }
     }
-
     /**
      * Test of getFlightsFromBetweenDates method, of class Flights.
      */
     @Test
-    public void testGetFlightsToFromBetweenDates5() {
+    public void testGetFlightsToFromBetweenDates4() {
         try {
             System.out.println("getFlightsToFromBetweenDates");
             String origin = "Reykjavík";
@@ -260,7 +238,6 @@ public class FlightsTest {
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             date1 = df.parse("01/01/2018");
             date2 = df.parse("02/02/2018");
-            
             
             ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
             ArrayList<Flight> expResult = DatabaseQueries.getFlightsFromBetweenDates(origin, date1, date2);
@@ -274,22 +251,14 @@ public class FlightsTest {
      * Test of getFlightsFromBetweenDates method, of class Flights.
      */
     @Test(expected=NullPointerException.class)
-    public void testGetFlightsToFromBetweenDates6() {
-        try {
-            System.out.println("getFlightsToFromBetweenDates");
-            String origin = null;
-            String destination = null;
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            date1 = df.parse("01/01/2018");
-            date2 = df.parse("31/12/2018");
+    public void testGetFlightsToFromBetweenDates5() {
+        System.out.println("getFlightsToFromBetweenDates");
+        String origin = null;
+        String destination = null;
             
-            
-            ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
-            ArrayList<Flight> expResult = null;
-            assertEquals(expResult, result);
-        } catch (ParseException ex) {
-            Logger.getLogger(FlightsTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ArrayList<Flight> result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights();
+        ArrayList<Flight> expResult = null;
+        assertEquals(expResult, result);
     }
 
     
@@ -298,18 +267,18 @@ public class FlightsTest {
      * @throws java.text.ParseException
      */
     @Test
-    public void testGetFlightsToFromBetweenDates7() throws ParseException {
-            System.out.println("getFlightsToFromBetweenDates");
-            String origin = "";
-            String destination = "";
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            // fyrri dagsetning seinni en seinni dagsetning
-            date1 = df.parse("31/12/2018");
-            date2 = df.parse("01/12/2018");
+    public void testGetFlightsToFromBetweenDates6() throws ParseException {
+        System.out.println("getFlightsToFromBetweenDates");
+        String origin = "";
+        String destination = "";
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        // fyrri dagsetning seinni en seinni dagsetning
+        date1 = df.parse("31/12/2018");
+        date2 = df.parse("01/12/2018");
             
-            int result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights().size();
-            int expResult = 0;
-            assertEquals(expResult, result);
+        int result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights().size();
+        int expResult = 0;
+        assertEquals(expResult, result);
     }
 
 
@@ -318,18 +287,16 @@ public class FlightsTest {
      * @throws java.text.ParseException
      */
     @Test(expected=ParseException.class)
-    public void testGetFlightsToFromBetweenDates8() throws ParseException {
-            System.out.println("getFlightsToFromBetweenDates");
-            String origin = "";
-            String destination = "";
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            // fyrri dagsetning seinni en seinni dagsetning
-            date1 = df.parse("01/12/2018");
-            date2 = df.parse("01/12/villa");
-            System.out.println(date2);
+    public void testGetFlightsToFromBetweenDates7() throws ParseException {
+        System.out.println("getFlightsToFromBetweenDates");
+        String origin = "";
+        String destination = "";
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        date1 = df.parse("01/12/2018");
+        date2 = df.parse("01/12/villa");
             
-            int result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights().size();
-            int expResult = 0;
-            assertEquals(expResult, result);
+        int result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights().size();
+        int expResult = 0;
+        assertEquals(expResult, result);
     }    
 }
