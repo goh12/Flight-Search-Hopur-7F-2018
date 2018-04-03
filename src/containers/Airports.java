@@ -19,4 +19,8 @@ public class Airports {
     public Airports() {
         airports = DatabaseQueries.getAirports();
     }
+    
+    public ArrayList<Airport> getAirports() {
+        return airports;
+    }
 }

@@ -225,17 +225,18 @@ public class DatabaseQueries {
         
         ArrayList<Flight> flights = null;
         
-        if(origin.equals("") && destination.equals("")) {
-            return getFlightsBetweenDates(dateFirst, dateLast);
-        }
-        if(destination.equals("")) {
-            return getFlightsFromBetweenDates(origin, dateFirst, dateLast);
-        }
-        if(origin.equals("")) {
-            return getFlightsToBetweenDates(destination, dateFirst, dateLast);
-        }
         
         try {
+            if(origin.equals("") && destination.equals("")) {
+                return getFlightsBetweenDates(dateFirst, dateLast);
+            }
+            if(destination.equals("")) {
+                return getFlightsFromBetweenDates(origin, dateFirst, dateLast);
+            }
+            if(origin.equals("")) {
+                return getFlightsToBetweenDates(destination, dateFirst, dateLast);
+            }
+            
             flights = new ArrayList<>();
             Airport aOrigin = getAirportByName(origin);
             Airport aDestination = getAirportByName(destination);

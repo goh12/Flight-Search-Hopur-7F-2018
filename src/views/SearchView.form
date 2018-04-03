@@ -160,7 +160,7 @@
           <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="31/12/2018"/>
-        <Property name="toolTipText" type="java.lang.String" value="dd-MM-yyyy"/>
+        <Property name="toolTipText" type="java.lang.String" value="dd/MM/yyyy"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="jDateField1">
@@ -169,7 +169,7 @@
           <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="01/01/2018"/>
-        <Property name="toolTipText" type="java.lang.String" value="dd-MM-yyyy"/>
+        <Property name="toolTipText" type="java.lang.String" value="dd/MM/yyyy"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jTableContainerScroll">

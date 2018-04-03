@@ -8,6 +8,7 @@ package views;
 import containers.Flights;
 import datastructures.Flight;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
@@ -94,11 +95,11 @@ class SearchView extends javax.swing.JPanel {
 
         jDateField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         jDateField2.setText("31/12/2018");
-        jDateField2.setToolTipText("dd-MM-yyyy");
+        jDateField2.setToolTipText("dd/MM/yyyy");
 
         jDateField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         jDateField1.setText("01/01/2018");
-        jDateField1.setToolTipText("dd-MM-yyyy");
+        jDateField1.setToolTipText("dd/MM/yyyy");
 
         jTableContainerScroll.setBackground(new java.awt.Color(255, 255, 255));
         jTableContainerScroll.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -180,12 +181,13 @@ class SearchView extends javax.swing.JPanel {
      */
     private void search(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search
         try {
+            if (!validateDate()) return;
             
             String origin = jOriginTextField.getText();
             String destination = jDestinationTextField.getText();
             Date d1 = df.parse(jDateField1.getText());
             Date d2 = df.parse(jDateField2.getText());
-            
+              
             Flights search = Flights.getFlightsToFromBetweenDates(origin, destination, d1, d2);
             if (search != null) {
                 currentFlights = search;
@@ -197,6 +199,30 @@ class SearchView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_search
 
+    /**
+     * Checks if date input matches the right format
+     * @return 
+     */
+    private boolean validateDate() {
+        boolean isOk = true;
+        String dateFormat = "[0-9]{2}/[0-9]{2}/[0-9]{4}";
+        if (!jDateField1.getText().matches(dateFormat)) {
+            jDateField1.setBackground(new Color(1f, 0.f, 0.f, 0.2f));
+            isOk = false;
+        } else {
+            jDateField1.setBackground(new Color(255, 0, 0));
+        }
+        
+        if (!jDateField2.getText().matches(dateFormat)) {
+            jDateField2.setBackground(new Color(1f, 0.f, 0.f, 0.2f));
+            isOk = false;
+        } else {
+            jDateField2.setBackground(new Color(255, 255, 255));
+        }
+        
+        return isOk;
+    }
+    
    
     /**
      * Loads flight view after selecting a flight in table.

@@ -289,14 +289,70 @@ public class FlightsTest {
     /**
      * Test of getFlightsFromBetweenDates method, of class Flights.
      */
-    @Test
+    @Test(expected=NullPointerException.class)
     public void testGetFlightsToFromBetweenDates8() {
+        System.out.println("getFlightsToFromBetweenDates");
+        String origin = "ReYkJaVíK";
+        String destination = "aKUREYRI";
+        
+        ArrayList<Flight> expectedResult = null;
+        Flights result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, null);
+        assertEquals(expectedResult, result.getFlights());
+    }
+    
+    /**
+     * Test of getFlightsFromBetweenDates method, of class Flights.
+     */
+    @Test(expected=NullPointerException.class)
+    public void testGetFlightsToFromBetweenDates9() {
+        System.out.println("getFlightsToFromBetweenDates");
+        String origin = "ReYkJaVíK";
+        String destination = "aKUREYRI";
+        
+        ArrayList<Flight> expectedResult = null;
+        Flights result = Flights.getFlightsToFromBetweenDates(origin, destination, null, date1);
+        assertEquals(expectedResult, result.getFlights());
+    }
+    
+    /**
+     * Test of getFlightsFromBetweenDates method, of class Flights.
+     */
+    @Test
+    public void testGetFlightsToFromBetweenDates10() {
         System.out.println("getFlightsToFromBetweenDates");
         String origin = "ReYkJaVíK";
         String destination = "aKUREYRI";
             
         int result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights().size();
-        int expResult = 4; // talið í gagnagrunni
+        int expResult = 8; 
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getFlightsFromBetweenDates method, of class Flights.
+     */
+    @Test
+    public void testGetFlightsToFromBetweenDates11() {
+        System.out.println("getFlightsToFromBetweenDates");
+        String origin = "ReYkJaVíK";
+        String destination = "aKUREYRI";
+            
+        Flights result = Flights.getFlightsToFromBetweenDates(null, destination, date1, date2);
+        Flights expResult = null; 
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getFlightsFromBetweenDates method, of class Flights.
+     */
+    @Test
+    public void testGetFlightsToFromBetweenDates12() {
+        System.out.println("getFlightsToFromBetweenDates");
+        String origin = "ReYkJaVíK";
+        String destination = "aKUREYRI";
+            
+        Flights result = Flights.getFlightsToFromBetweenDates(origin, null, date1, date2);
+        Flights expResult = null; 
         assertEquals(expResult, result);
     } 
 }
