@@ -279,11 +279,24 @@ public class FlightsTest {
         String origin = "";
         String destination = "";
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        date1 = df.parse("01/12/2018");
         date2 = df.parse("01/12/villa");
             
         int result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights().size();
         int expResult = 0;
         assertEquals(expResult, result);
     }    
+    
+    /**
+     * Test of getFlightsFromBetweenDates method, of class Flights.
+     */
+    @Test
+    public void testGetFlightsToFromBetweenDates8() {
+        System.out.println("getFlightsToFromBetweenDates");
+        String origin = "ReYkJaVíK";
+        String destination = "aKUREYRI";
+            
+        int result = Flights.getFlightsToFromBetweenDates(origin, destination, date1, date2).getFlights().size();
+        int expResult = 4; // talið í gagnagrunni
+        assertEquals(expResult, result);
+    } 
 }
