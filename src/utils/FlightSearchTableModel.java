@@ -5,7 +5,7 @@
  */
 package utils;
 
-import containers.Flights;
+import controllers.Flights;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.table.AbstractTableModel;

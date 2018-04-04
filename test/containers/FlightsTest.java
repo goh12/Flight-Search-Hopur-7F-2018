@@ -3,6 +3,7 @@
  */
 package containers;
 
+import controllers.Flights;
 import datastructures.Flight;
 import database.DatabaseQueries;
 import java.text.ParseException;

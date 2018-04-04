@@ -8,7 +8,7 @@
     Klasi inniheldur röðunaraðferðir fyrir lista af flugum.
     
  */
-package containers;
+package controllers;
 
 import database.DatabaseQueries;
 import datastructures.Flight;

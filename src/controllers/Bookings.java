@@ -2,7 +2,7 @@
     Klasi heldur utan um bókanir.
     Sér um samband við gagnagrunn.
  */
-package containers;
+package controllers;
 
 import datastructures.*;
 import java.util.ArrayList;

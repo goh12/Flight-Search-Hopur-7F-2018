@@ -5,7 +5,7 @@
  */
 package utils;
 
-import containers.Flights;
+import controllers.Flights;
 import static database.DatabaseQueries.getSeatsByFlightId;
 import datastructures.Airport;
 import datastructures.Booking;

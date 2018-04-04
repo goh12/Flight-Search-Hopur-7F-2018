@@ -5,7 +5,7 @@
  */
 package views;
 
-import containers.Bookings;
+import controllers.Bookings;
 import datastructures.User;
 import java.awt.Color;
 import database.DatabaseQueries;

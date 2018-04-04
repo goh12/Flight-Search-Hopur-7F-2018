@@ -1,6 +1,6 @@
 
-import containers.Flights;
-import containers.Bookings;
+import controllers.Flights;
+import controllers.Bookings;
 import database.DatabaseQueries;
 import datastructures.Flight;
 import datastructures.Booking;

@@ -6,7 +6,7 @@
 package views;
 
 import static com.sun.javafx.iio.ImageStorage.ImageType.RGBA;
-import containers.Bookings;
+import controllers.Bookings;
 import datastructures.Booking;
 import datastructures.Flight;
 import datastructures.Seat;

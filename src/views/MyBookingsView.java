@@ -5,7 +5,7 @@
  */
 package views;
 
-import containers.Bookings;
+import controllers.Bookings;
 import datastructures.Booking;
 import datastructures.Flight;
 import datastructures.User;

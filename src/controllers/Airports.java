@@ -3,7 +3,7 @@
     Fínt að hafa alla flugvelli í einum hlut.
     Sér um samband við gagnagrunn.
 */
-package containers;
+package controllers;
 
 import database.DatabaseQueries;
 import datastructures.Airport;

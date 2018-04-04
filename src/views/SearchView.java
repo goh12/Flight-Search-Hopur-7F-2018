@@ -5,7 +5,7 @@
  */
 package views;
 
-import containers.Flights;
+import controllers.Flights;
 import datastructures.Flight;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -210,7 +210,7 @@ class SearchView extends javax.swing.JPanel {
             jDateField1.setBackground(new Color(1f, 0.f, 0.f, 0.2f));
             isOk = false;
         } else {
-            jDateField1.setBackground(new Color(255, 0, 0));
+            jDateField1.setBackground(new Color(255, 255, 255));
         }
         
         if (!jDateField2.getText().matches(dateFormat)) {
