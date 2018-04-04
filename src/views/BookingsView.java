@@ -5,21 +5,18 @@
  */
 package views;
 
-import static com.sun.javafx.iio.ImageStorage.ImageType.RGBA;
+
 import controllers.Bookings;
 import datastructures.Booking;
 import datastructures.Flight;
 import datastructures.Seat;
 import datastructures.User;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 import javax.swing.JPanel;
 import views.components.SeatButton;
 
@@ -27,7 +24,7 @@ import views.components.SeatButton;
  *
  * @author greta
  */
-public class BookingsView extends javax.swing.JPanel {
+public final class BookingsView extends javax.swing.JPanel {
     private final Main parent;          //Parent JFrame
     private final Flight flight;        //Flight to get info from
     private final SimpleDateFormat df;  //Date formatter
@@ -36,8 +33,8 @@ public class BookingsView extends javax.swing.JPanel {
 
     /**
      * Creates new form FlightInfoView
-     * @param Main main
-     * @param Flight flight
+     * @param main
+     * @param flight
      */
     public BookingsView(Main main, Flight flight) {
         initComponents();
@@ -46,7 +43,7 @@ public class BookingsView extends javax.swing.JPanel {
         this.flight.orderSeats();
         this.df = new SimpleDateFormat("dd. MMM yyyy");
         this.tf = new SimpleDateFormat("HH:mm:ss");
-        this.selectedSeats = new ArrayList<Seat>();
+        this.selectedSeats = new ArrayList<>();
         loadInfo();
     }
     
@@ -95,14 +92,11 @@ public class BookingsView extends javax.swing.JPanel {
     }
     
     private void attachClickedHandlerToSeat(SeatButton seat) {
-        seat.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                seat.setSelected();
-                if (seat.isSelected()) selectedSeats.add(seat.getSeat());
-                else selectedSeats.remove(seat.getSeat());
-                calculatePrice();
-            }
+        seat.addActionListener((ActionEvent e) -> {
+            seat.setSelected();
+            if (seat.isSelected()) selectedSeats.add(seat.getSeat());
+            else selectedSeats.remove(seat.getSeat());
+            calculatePrice();
         });
     }
 
@@ -283,14 +277,14 @@ public class BookingsView extends javax.swing.JPanel {
         }
         
         Bookings bookings = new Bookings();
-        for (Seat s : selectedSeats) {
+        selectedSeats.forEach((s) -> {
             bookings.addBooking(new Booking(loggedUser.getSsn(), s));
-        }
+        });
         
         if (bookings.bookSeats() == 0){
-            for (Seat s : selectedSeats) {
+            selectedSeats.forEach((s) -> {
                 s.setBooked();
-            }
+            });
         }
     
         parent.setMyBookings(bookings);
