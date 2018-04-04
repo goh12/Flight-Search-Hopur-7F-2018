@@ -6,6 +6,7 @@
 package views;
 
 import controllers.Bookings;
+import database.DatabaseQueries;
 import datastructures.Booking;
 import datastructures.Flight;
 import datastructures.User;
@@ -60,7 +61,8 @@ public class MyBookingsView extends javax.swing.JPanel {
         if (bookings == null) {
             this.myBookings = new ArrayList<>();
         } else {
-            myBookings.addAll(bookings.getBookings());
+            System.out.println(loggedUser);
+            myBookings = DatabaseQueries.getUserBookings(parent.getLoggedInUser().getSsn());
         }
     }
     

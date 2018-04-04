@@ -45,4 +45,9 @@ public class Bookings {
     public ArrayList<Booking> getBookings() {
         return this.bookings;
     }
+    
+    public void getAllBookingsForSSN() {
+        //Database call for bookings
+        //return all bookings
+    }
 }
