@@ -15,7 +15,7 @@ public class Seat {
     /**
      * Smiður
      * @param flightId
-     * @param seats
+     * @param seatId
      * @param booked 
      */
     public Seat(int flightId, String seatId, boolean booked) {
@@ -40,6 +40,7 @@ public class Seat {
         booked = true;
     }
     
+    @Override
     public String toString() {
         return "Sæti: " + seatId + ". Í flugi: " + flightId;
     }

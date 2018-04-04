@@ -14,7 +14,6 @@ public class Airport {
     
     /**
      * Constructor
-     * @param id
      * @param airportname 
      */
     public Airport(String airportname) {

@@ -16,7 +16,7 @@ public class Bookings {
     
     
     public Bookings() {
-        bookings = new ArrayList<Booking>();
+        bookings = new ArrayList<>();
     }
     
     /**
@@ -29,6 +29,7 @@ public class Bookings {
     /**
      * Bókar sæti (Notar DatabaseController til að uppfæra gagnagrunn þegar allar
      * bókanir sem notandi vill eru komnar í bookings lista)
+     * @return 
      */
     public int bookSeats() {
         if (DatabaseQueries.bookSeats(bookings) == 0) return 0;
@@ -37,6 +38,7 @@ public class Bookings {
     
     /**
      * Býr til nýja bókun og bætir í bookings lista.
+     * @param b
      */
     public void addBooking(Booking b) {
         bookings.add(b);
