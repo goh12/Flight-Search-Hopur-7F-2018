@@ -15,19 +15,14 @@ import javax.swing.table.AbstractTableModel;
  * @author greta
  */
 public class FlightSearchTableModel extends AbstractTableModel {
-    private String[] columnNames = {
-            "Date",
-            "Time",
-            "Departing from",
-            "Arriving at",
-            "Price from"
-        };
-    private Flights flights;
+    private final String[] columnNames;
+    private final Flights flights;
     SimpleDateFormat df;
     SimpleDateFormat tf;
     DecimalFormat cf; 
     
     public FlightSearchTableModel(Flights flights) {
+        this.columnNames = new String[]{"Date", "Time", "Departing from", "Arriving at", "Price from"};
         this.flights = flights;
         this.df = new SimpleDateFormat("dd/MM/yyy");
         this.tf = new SimpleDateFormat("HH:mm:ss");

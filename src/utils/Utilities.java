@@ -32,7 +32,10 @@ public class Utilities {
     
     /**
      * Skilar Date hlut úr streng á forminu yyyy-MM-dd
+     * @param dateof
+     * @param timeof
      * @return 
+     * @throws java.text.ParseException 
      */
     public static Date getDate(String dateof, String timeof) throws ParseException {
         String temp = dateof + " " + timeof;

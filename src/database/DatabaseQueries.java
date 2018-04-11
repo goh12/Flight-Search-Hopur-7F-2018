@@ -3,29 +3,6 @@
     Búa til public föll fyrir eitthvað query og private föll til
     hjálpar ef þarf.
 */
-
-
-/*
-    Queries sem við þurfum að IMPLEMENTA! (hjálparföll ekki innifalin)
-    getAirports() --> DONE
-    getAirportByName(String name) --> DONE
-    getAirportById(String id) --> DONE
-
-    getFlightsFromTo(String origin, String destination) --> DONE
-    getFlightsFromToOnDate(String origin, String destination, Date date) --> DONE
-    getFlightsFromToBetweenDates(String origin, String destination, Date date1, Date date2) --> DONE
-    getFlightById(int id) --> DONE
-
-    getBooking(String ssn, flightId) --> Skoda
-    getUserBookings(String ssn)
-    bookSeats(ArrayList<Booking> bookings)--> Skoda
-
-    getUser(String ssn)
-    newUser(String ssn, String name)
-    
-    
-
-*/
 package database;
 
 import database.DatabaseController.*;

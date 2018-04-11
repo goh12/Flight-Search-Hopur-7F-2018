@@ -17,8 +17,10 @@ public class Booking {
     
     /**
      * Smiður
+     * @param id
      * @param flightId
      * @param ssn 
+     * @param seatId 
      */
     public Booking(int id, String ssn, int flightId, String seatId) {
         this.id = id;
@@ -31,6 +33,7 @@ public class Booking {
      * Smiður
      * @param flightId
      * @param ssn 
+     * @param seatId 
      */
     public Booking(String ssn, int flightId, String seatId) {
         this.id = -1;
@@ -41,8 +44,8 @@ public class Booking {
     
     /**
      * Smiður
-     * @param flightId
      * @param ssn 
+     * @param seat 
      */
     public Booking(String ssn, Seat seat) {
         this.id = DatabaseQueries.getBookingId(ssn, seat.getFlightId());
@@ -66,8 +69,8 @@ public class Booking {
     public String getSeatId() {
         return seatId;
     }
-    
-    
+        
+    @Override
     public String toString() {
         return ssn + " á sæti " + seatId + " í flugi " + flightId;
     }

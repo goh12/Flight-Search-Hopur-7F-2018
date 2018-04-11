@@ -5,8 +5,6 @@
  */
 package datastructures;
 
-import database.DatabaseQueries;
-
 /**
  *
  * @author gudmu

@@ -14,10 +14,10 @@ import javax.swing.JButton;
  *
  * @author greta
  */
-public class SeatButton extends JButton {
-    private boolean isBooked;
+public final class SeatButton extends JButton {
+    private final boolean isBooked;
     private boolean isSelected = false;
-    private Seat seat;
+    private final Seat seat;
     
     public SeatButton(Seat seat) {
         super();
@@ -65,6 +65,7 @@ public class SeatButton extends JButton {
         return isBooked;
     }
 
+    @Override
     public boolean isSelected() {
         return isSelected;
     }

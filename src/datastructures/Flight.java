@@ -110,7 +110,7 @@ public class Flight {
     
     
     public void orderSeats() {
-        Collections.sort(this.seats, new Comparator() {
+        Collections.sort(this.seats, new Comparator<Object>() {
             @Override
             public int compare(Object o1, Object o2) {
                 String regex = "[^A-Z0-9]+|(?<=[A-Z])(?=[0-9])|(?<=[0-9])(?=[A-Z])";
@@ -123,11 +123,12 @@ public class Flight {
                 Integer i2 = Integer.parseInt(split2[0]);
                 int sComp = i1.compareTo(i2);
                 if (sComp != 0) {
-                   return sComp;
+                    return sComp;
                 } else {
-                   return split1[1].compareTo(split2[1]);
+                    return split1[1].compareTo(split2[1]);
                 }
-        }});
+            }
+        });
     }
     
 }
